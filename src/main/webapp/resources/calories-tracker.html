@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Juros Online</title>
+<link rel="stylesheet" href="/resources/bower_components/pure/pure.css">
+<link rel="stylesheet"
+	href="/resources/bower_components/pure/grids-responsive.css">
+<link rel="stylesheet" href="/resources/public/css/pure-theme.css">
+<link rel="stylesheet" href="/resources/public/css/calories-tracker.css">
+<link rel="stylesheet" href="/resources/css/jquery.datetimepicker.css">
+</head>
+
+<body class="pure-skin-theme" id="caloriesCounterApp" ng-controller="CaloriesTrackerCtrl">
+
+	<div class="please-wait-dialog" ng-hide="vm.appReady">
+		<img class="please-wait-spinner" src="/resources/img/loading.gif">
+	</div>
+
+	<header class="page-header pure-g not-ready"
+		ng-class="{'app-ready': vm.appReady}">
+		<div class="pure-u-lg-1-2 pure-u-1">
+
+			<a class="pure-menu-heading" href="#"> <img class="logo"
+				src="/resources/img/juros-simples.jpg">
+			</a> <span class="header-element page-title">Juros online</span>
+
+			<div>
+				<div>
+				</div>
+			</div>
+
+		</div>
+		<div class="pure-u-lg-1-2 pure-u-1 utilities">
+			<div class="header-element">
+			</div>
+			<div class="header-element username">
+				<div class="username-placeholder" ng-hide="vm.userName"></div>
+				<span ng-cloak>{{vm.userName}}</span>
+			</div>
+			<div class="header-element">
+				<a class="logout" href="#" ng-click="logout()">Logout</a>
+			</div>
+		</div>
+	</header>
+
+	<main class="container not-ready" ng-class="{'app-ready': vm.appReady}"
+		ng-cloak> <tt-error-messages></tt-error-messages>
+
+	<div class="info-messages"
+		ng-style="{'opacity': vm.infoMessages.length > 0 ? 1 : 0, 'z-index': vm.infoMessages.length > 0 ? 10 : -10}">
+		<img class="info-icon" src="/resources/img/info-icon.png">
+		<div class="messages-group">
+			<div ng-repeat="info in vm.infoMessages">{{info.description}}</div>
+		</div>
+	</div>
+
+	<form class="pure-form pure-form-aligned search-form">
+		<div class="form-group row-fluid">
+			<fieldset>
+	          <legend>Calcular Juros</legend>
+	            <div>
+					<strong> Tipo de Juros: </strong>
+					<span ng-model="dadosCalcJuros.tipo">
+		                 <label class="radio">
+		                  <input type="radio" name="tipo" id="radioSimp" value="S" ng-model="dadosCalcJuros.tipoJuros" checked> 
+		                  Simples
+		                </label>
+		                <label class="radio">
+		                  <input type="radio" name="tipo" id="radioComp" value="C" ng-model="dadosCalcJuros.tipoJuros">
+		                   Compostos
+		                </label>
+		            </span>
+	            </div>
+	            <br/>
+	            <div>
+	               <strong> Capital Inicial: </strong>
+	               <input type="text" class="money" name="capitalInicial" ng-model="dadosCalcJuros.capitalInicial" 
+	                   placeholder="Informe o valor" maxlength="16" size="16" required>
+	            </div>
+	            <br/>
+	            <div>
+                   <strong> Taxa de Juros (%): </strong>
+				   <input type="text" class="money" name="txJuros" ng-model="dadosCalcJuros.txJuros" maxlength="16"
+				        size="16" placeholder="Informe a taxa" required>
+                </div>
+                <br/>
+                <div>
+                   <span class="pure-u-1 pure-u-md-1-3">
+	                   <strong> Tempo: </strong>
+	                   <input type="text" name="tempo" ng-model="dadosCalcJuros.tempoEmprestDTO.tempoEmprest" 
+	                       placeholder="Informe o tempo" maxlength="16" size="16" required>
+                   </span>
+                   <span class="pure-u-1 pure-u-md-1-3">
+					 <select id="state" class="pure-input-1-2" ng-model="dadosCalcJuros.tempoEmprestDTO.tipoTempoJuros">
+	                    <option selected>M&ecirc;s</option>
+	                    <option>Ano</option>
+	                    <option>Dias</option>
+	                 </select>
+				  </span>
+                </div>
+			</fieldset>
+		</div>
+<!-- 
+		<div class="calculos-list">
+
+			<div class="table-buttons">
+				<button type="submit" class="pure-button" ng-click="add()">Add</button>
+				<button type="submit" class="pure-button" ng-click="delete()"
+					ng-disabled="vm.isSelectionEmpty" disabled>Delete</button>
+			</div>
+
+			<table class="pure-table">
+				<thead>
+					<tr>
+						<th class="selection-column"></th>
+						<th>Date/Time</th>
+						<th>Description</th>
+						<th>Total Calories</th>
+					</tr>
+				</thead>
+
+				<tbody>
+
+					<tr ng-repeat="meal in vm.meals | excludeDeleted | limitTo : 10"
+						tt-editable-row rowValue="meal"
+						ng-class="{'pure-table-odd': $index % 2 == 1, 'pure-table-even': $index % 2 == 0}">
+
+						<td class="selection-column"><input type="checkbox"
+							ng-model="meal.selected" ng-click="selectionChanged()"></td>
+
+						<td tt-editable-cell value="meal.datetime" is-new="meal.new">
+							<input tt-date-time-picker tt-cell-field type="text"
+							ng-model="meal.datetime">
+						</td>
+
+						<td tt-editable-cell value="meal.description" is-new="meal.new">
+							<input type="text" tt-cell-field ng-model="meal.description">
+						</td>
+
+						<td tt-editable-cell value="meal.calories" is-new="meal.new">
+							<input type="text" tt-cell-field tt-numeric-field
+							ng-model="meal.calories">
+						</td>
+
+					</tr>
+
+				</tbody>
+			</table>
+
+			<ul class="pure-paginator paginator">
+				<li><a ng-enabled="vm.totalPages > 0" class="pure-button prev"
+					ng-click="previous()" ng-disabled="vm.currentPage == 1">&#171;</a>
+				</li>
+
+				<li ng-repeat="page in pages()"><a
+					ng-enabled="vm.totalPages > 0" class="pure-button"
+					ng-click="goToPage($index + 1)"
+					ng-class="{'pure-button-active': page == vm.currentPage}">{{page}}</a></li>
+
+				<li><a ng-enabled="vm.totalPages > 0"
+					ng-disabled="vm.currentPage == vm.totalPages"
+					class="pure-button next" ng-click="next()">&#187;</a></li>
+			</ul>
+
+		</div>
+ -->
+
+	    <fieldset>
+	        <legend>Resultado</legend>
+	        <div>
+		        <strong> Juros: </strong>
+	            <span>{{resultadoCalcJuros.juros}}</span>
+	        </div>
+	        <div>
+	            <strong> Montante: </strong>
+	            <span>{{resultadoCalcJuros.montante}}</span>
+	        </div>
+	    </fieldset>
+
+	</form>
+
+	<div class="form-separator"></div>
+
+	<div class="main-controls">
+		<button type="button" class="pure-button pure-button-primary" ng-click="calcularJuros()">Calcular</button>
+		<button type="submit" class="pure-button" ng-click="reset()">Salvar</button>
+		<button type="reset" class="pure-button" ng-click="reset()">Limpar</button>
+	</div>
+
+	</main>
+
+	<script type="text/javascript" data-main="/resources/js/run-calories-tracker" src="/resources/bower_components/requirejs/require.js"></script>
+</body>
+</html>
