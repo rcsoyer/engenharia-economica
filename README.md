@@ -11,7 +11,7 @@ Projeto para disciplina Engenharia Econômica
  - postgres e drivers jdbc
 
 
-## Instruções de instalação
+### Instruções de instalação ###
 
 - Depois de clonar o repositorio, instale as dependencias frontend:
 
@@ -25,7 +25,7 @@ E então rode o comando maven:
  
 
 
-Acesso ao app:
+### Acesso ao app ###
 
     http://localhost:8080/
 

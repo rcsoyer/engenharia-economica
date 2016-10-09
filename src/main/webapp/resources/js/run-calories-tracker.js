@@ -6,16 +6,17 @@
 
 require.config({
     paths: {
-        angular: '../bower_components/angular/angular',
-        angularMessages: '../bower_components/angular-messages/angular-messages',
+        angular: '../bower_components/angular/angular.min',
+        angularMessages: '../bower_components/angular-messages/angular-messages.min',
         csrfInterceptor: '../bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
-        lodash: '../bower_components/lodash/dist/lodash',
+        lodash: '../bower_components/lodash/dist/lodash.min',
         jQuery: '../bower_components/jquery/jquery-1.10.2.min', 
         maskMoney : '../bower_components/jquery-maskmoney-master/dist/jquery.maskMoney.min',
         datetimepicker: './datetimepicker/jquery.datetimepicker',
         editableTableWidgets: '../public/js/editable-table-widgets',
         frontendServices: 'frontend-services',
-        caloriesCounterApp: 'calories-counter-app'
+        caloriesCounterApp: 'calories-counter-app',
+        bootstrap: '../bower_components/bootstrap-3.3.7-dist/js/bootstrap.min'
     },
     shim: {
         jQuery: {
@@ -43,8 +44,11 @@ require.config({
         	deps: ['jQuery'],
             exports: 'jQuery.fn.maskMoney'
         },
+        bootstrap : {
+        	deps : ['jQuery']
+        },
         caloriesCounterApp: {
-            deps: [ 'lodash', 'angular', 'angularMessages', 'editableTableWidgets', 'frontendServices', 'jQuery', 'maskMoney' ]
+            deps: [ 'lodash', 'angular', 'angularMessages', 'editableTableWidgets', 'frontendServices', 'maskMoney']
         }
     }
 });

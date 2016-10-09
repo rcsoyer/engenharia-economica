@@ -17,7 +17,16 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
                 meals: [],
                 isSelectionEmpty: true,
                 errorMessages: [],
-                infoMessages: []
+                infoMessages: [],
+                submitted: false,
+                errorMessages: []
+            };
+            
+            $scope.dadosCalcJuros = {
+            	tipoJuros : '',
+            	capitalInicial : '',
+            	txJuros : '',
+            	tempo : ''
             };
 
             markAppAsInitialized();
@@ -257,9 +266,13 @@ angular.module('caloriesCounterApp', ['editableTableWidgets', 'frontendServices'
             }
 
             $scope.calcularJuros = function () {
-                $scope.vm.errorMessages = [];
+                
+                if ($scope.formJuros.$invalid) {
+                	$scope.vm.submitted = true;
+                    return;
+                }
 
-                JurosService.calcularJuros($scope.dadosCalcJuros)
+                JurosService.calcularJuros($scope.vm.dadosCalcJuros)
 	                .then(function (data) {
 	                		$scope.resultadoCalcJuros = data;
 	                    },
