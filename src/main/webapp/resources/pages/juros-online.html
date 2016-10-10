@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Juros online</title>
+        <link rel="stylesheet" href="/resources/bower_components/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/resources/public/css/engenharia-economica.css">
+    </head>
+    
+    <body id="jurosOnlineApp" ng-controller="JurosOnlineCtrl">
+    
+       <main class="container">
+       
+          <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Engenharia Econ&ocirc;mica</a>
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                  <form class="navbar-form navbar-right">
+                    <div class="header-element username">
+                        <div class="username-placeholder" ng-hide="vm.userName"></div>
+                        <span ng-cloak>{{vm.userName}}</span>
+                    </div>
+                    <div class="header-element">
+                        <a class="logout" href="#" ng-click="logout()">Logout</a>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </nav>
+          
+          <br />
+          <br />
+          <br />
+          <br />
+          
+          <form class="form-horizontal" name="formJuros" novalidate>
+          
+            <fieldset class="row">
+                <legend><h1 class="text-center success">Juros online</h1></legend>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span> * </span> Tipo de Juros </label>
+                    <label class="radio-inline">
+                     <input type="radio" name="tipo" id="radioSimp" value="S" ng-model="dadosCalcJuros.tipoJuros"> 
+                     Simples
+                   </label>
+                   <label class="radio-inline">
+                     <input type="radio" name="tipo" id="radioComp" value="C" ng-model="dadosCalcJuros.tipoJuros">
+                      Compostos
+                   </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span> * </span> Capital Inicial </label>
+                    <div class="input-group col-sm-2">
+					  <span class="input-group-addon">R$</span>
+	                  <input type="text" name="capitalInicial" class="form-control capitalInicial money" ng-model="dadosCalcJuros.capitalInicial" maxlength="16" size="16" 
+	                    placeholder="Informe o valor" required>
+                    </div>
+	                <div class="error-messages" ng-messages="formJuros.capitalInicial.$error">
+	                   <span ng-message="required" ng-show="vm.submitted && formJuros.capitalInicial.$error.required">Campo obrigat&oacute;rio</span>
+	                </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span> * </span> Taxa de Juros </label>
+                    <div class="input-group col-sm-2">
+	                   <input type="text" class="money form-control txJuros" name="txJuros" ng-model="dadosCalcJuros.txJuros" maxlength="16" size="16"
+	                        placeholder="Informe a taxa" required>
+	                    <span class="input-group-addon">%</span>
+                    </div>
+                    <div class="error-messages" ng-messages="formJuros.txJuros.$error">
+                       <span ng-message="required" ng-show="vm.submitted && formJuros.txJuros.$error.required">Campo obrigat&oacute;rio</span>
+                    </div>
+                </div>
+                 
+                <div class="form-group">
+		            <label class="col-sm-2 control-label"><span> * </span> Tempo </label>
+				    <div class="input-group col-sm-2">
+				      <input type="text" class="form-control money tempo" name="tempo" ng-model="dadosCalcJuros.tempo" maxlength="6" size="6" placeholder="Informe o tempo" required>
+				      <div class="input-group-btn">
+				        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				            M&ecirc;s <span class="caret"></span>
+				        </button>
+				        <ul class="dropdown-menu dropdown-menu-right">
+				          <li><a href="#">M&ecirc;s</a></li>
+				          <li><a href="#">Ano</a></li>
+				          <li><a href="#">Dias</a></li>
+				        </ul>
+				      </div>
+				    </div>
+				    
+                    <div class="error-messages" ng-messages="formJuros.tempo.$error">
+                       <span ng-message="required" ng-show="vm.submitted && formJuros.tempo.$error.required">Campo obrigat&oacute;rio</span>
+                    </div>
+			    </div>
+                 
+               <div class="form-group text-center">
+                   <button type="button" ng-click="calcularJuros()" class="btn btn-primary" name="btnCalcula">Calcular</button>
+	               <button type="button" class="btn btn-default" ng-click="limparDadosInformados()">Limpar</button>
+	           </div>
+                 
+            </fieldset>
+
+	        <fieldset class="row">
+	            <strong><legend>Resultado</legend></strong>
+	            <div class="well">
+		            <div>
+		                <label> Juros </label>
+		                <span ng-cloak>{{resultadoCalcJuros.juros}}</span>
+		            </div>
+		            <div>
+		                <label> Montante </label>
+		                <span ng-cloak>{{resultadoCalcJuros.montante}}</span>
+		            </div>
+	            </div>
+	        </fieldset>
+                
+	    </form>
+       </main>
+       
+       <script type="text/javascript" data-main="/resources/js/run-juros-online" src="/resources/bower_components/requirejs/require.js" async></script>
+    
+    </body>
+</html>

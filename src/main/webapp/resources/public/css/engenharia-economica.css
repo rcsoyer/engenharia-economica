@@ -1,0 +1,23 @@
+a.logout {
+    color: #eee;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-right: 1em;
+}
+
+a.logout:hover {
+    color: #3b67a7;
+}
+
+.header-element {
+    display: inline-block;
+    vertical-align: top;
+    height: 40px;
+    line-height: 40px;
+
+}
+
+.username-placeholder {
+    width: 100px;
+    display: inline-block;
+}
