@@ -38,7 +38,7 @@ require.config({
         	deps : ['jQuery']
         },
         jurosOnlineApp: {
-            deps: [ 'lodash', 'angular', 'angularMessages', 'frontendServices', 'maskMoney', 'bootstrap', 'economiaCommons', 'jQuery' ]
+            deps: [ 'lodash', 'angular', 'angularMessages', 'frontendServices', 'maskMoney', 'bootstrap', 'economiaCommons' ]
         }
     }
 });

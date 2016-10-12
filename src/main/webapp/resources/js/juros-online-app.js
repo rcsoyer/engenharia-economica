@@ -70,7 +70,7 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
             
             function mascararMoedaResultadoCalculos(resultadoCalcJuros) {
             	$scope.resultadoCalcJuros.juros = 'R$ ' + $economia.fn.mascararMoeda(resultadoCalcJuros.juros);
-        		$scope.resultadoCalcJuros.montante = 'R$ ' + $economia.fn.mascararMoeda(resultadoCalcJuros	.montante);
+        		$scope.resultadoCalcJuros.montante = 'R$ ' + $economia.fn.mascararMoeda(resultadoCalcJuros.montante);
             }
             
             $scope.calcularJuros = function ($event) {
@@ -83,27 +83,27 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
                 
                 var scopeDadosCalcJuros = $scope.dadosCalcJuros;
                 
-                var dadosCalcJuros = {
-            		tipoJuros : scopeDadosCalcJuros.tipoJuros,
-        			capitalInicial : scopeDadosCalcJuros.capitalInicial.replace(/\.+/g, '').replace(/\,/, '.'),
-        			taxaJurosDTO : {
-        				vlrTxJuros : scopeDadosCalcJuros.taxaJurosDTO.vlrTxJuros.replace(/\.+/g, '').replace(/\,/, '.'),
-        				tipoTempoTxJuros : scopeDadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros
-        			},
-        			tempoEmprestDTO : {
-        				tempoEmprest : scopeDadosCalcJuros.tempoEmprestDTO.tempoEmprest,
-        				tipoTempoJuros : scopeDadosCalcJuros.tempoEmprestDTO.tipoTempoJuros
-        			}
-                };
-
-                JurosService.calcularJuros(dadosCalcJuros)
-                   .then(function (dataResultadoCalc) {
-                	    mascararMoedaResultadoCalculos(dataResultadoCalc);
-                    },
-                    function (errorMessage) {
-                        showErrorMessage(errorMessage);
-                    }
-                );
+	            var dadosCalcJuros = {
+	        		tipoJuros : scopeDadosCalcJuros.tipoJuros,
+	    			capitalInicial : scopeDadosCalcJuros.capitalInicial.replace(/\.+/g, '').replace(/\,/, '.'),
+	    			taxaJurosDTO : {
+	    				vlrTxJuros : scopeDadosCalcJuros.taxaJurosDTO.vlrTxJuros.replace(/\.+/g, '').replace(/\,/, '.'),
+	    				tipoTempoTxJuros : scopeDadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros
+	    			},
+	    			tempoEmprestDTO : {
+	    				tempoEmprest : scopeDadosCalcJuros.tempoEmprestDTO.tempoEmprest,
+	    				tipoTempoJuros : scopeDadosCalcJuros.tempoEmprestDTO.tipoTempoJuros
+	    			}
+	            };
+	
+	            JurosService.calcularJuros(dadosCalcJuros)
+	               .then(function (dataResultadoCalc) {
+	            	    mascararMoedaResultadoCalculos(dataResultadoCalc);
+	                },
+	                function (errorMessage) {
+	                    showErrorMessage(errorMessage);
+	                }
+	            );
             };
 
             $scope.logout = function () {
@@ -113,6 +113,7 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
             $scope.limparDadosInformados = function () {
             	inicializarObjDadosCalcJuros();
             	inicializarObjResultadoCalcJuros();
+            	$('#btnDropTempTxJur, #btnDropTempEmp').html('M&ecirc;s' + ' <span class="caret"></span>');
             	$scope.vm.submitted = false;
             };
         }])
