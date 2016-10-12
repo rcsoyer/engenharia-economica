@@ -7,10 +7,10 @@ public class DadosCalcJurosDTO implements Serializable {
     
     private static final long serialVersionUID = 5977885967584018270L;
     
-    private BigDecimal	  capitalInicial;
-    private BigDecimal	  txJuros;
-    private TempoJurosDTO tempoEmprestDTO;
-    private String	  tipoJuros;
+    private BigDecimal	       capitalInicial;
+    private TaxaJurosDTO       taxaJurosDTO;
+    private TempoEmprestimoDTO tempoEmprestDTO;
+    private String	       tipoJuros;
     
     public BigDecimal getCapitalInicial() {
 	return capitalInicial;
@@ -20,19 +20,19 @@ public class DadosCalcJurosDTO implements Serializable {
 	this.capitalInicial = capitalInicial;
     }
     
-    public BigDecimal getTxJuros() {
-	return txJuros;
+    public TaxaJurosDTO getTaxaJurosDTO() {
+	return taxaJurosDTO;
     }
     
-    public void setTxJuros(BigDecimal txJuros) {
-	this.txJuros = txJuros;
+    public void setTaxaJurosDTO(TaxaJurosDTO taxaJurosDTO) {
+	this.taxaJurosDTO = taxaJurosDTO;
     }
     
-    public TempoJurosDTO getTempoEmprestDTO() {
+    public TempoEmprestimoDTO getTempoEmprestDTO() {
 	return tempoEmprestDTO;
     }
     
-    public void setTempoEmprestDTO(TempoJurosDTO tempoEmprestDTO) {
+    public void setTempoEmprestDTO(TempoEmprestimoDTO tempoEmprestDTO) {
 	this.tempoEmprestDTO = tempoEmprestDTO;
     }
     

@@ -1,28 +1,27 @@
 package calories.tracker.app.dto;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class ResultadoCalcJurosDTO implements Serializable {
     
     private static final long serialVersionUID = 3990143497827054680L;
     
-    private BigDecimal juros;
-    private BigDecimal montante;
+    private String juros;
+    private String montante;
     
-    public BigDecimal getJuros() {
+    public String getJuros() {
 	return juros;
     }
     
-    public void setJuros(BigDecimal juros) {
+    public void setJuros(String juros) {
 	this.juros = juros;
     }
     
-    public BigDecimal getMontante() {
+    public String getMontante() {
 	return montante;
     }
     
-    public void setMontante(BigDecimal montante) {
+    public void setMontante(String montante) {
 	this.montante = montante;
     }
 }

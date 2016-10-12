@@ -1,14 +1,19 @@
 angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-token-interceptor'])
     .controller('JurosOnlineCtrl', ['$scope' , 'UserService', 'JurosService', '$timeout',
-        function ($scope, MealService, UserService, JurosService, $timeout) {
+        function ($scope, UserService, JurosService, $timeout) {
     	
-    		$('.money').maskMoney({allowNegative: false, thousands:'.', decimal:',', affixesStay: false});
+    		$('#tempoTxJuros').find('li').find('a').click(function(evt) {
+    		  evt.preventDefault();
+      		  $('#btnDropTempTxJur').html($(this).text() + ' <span class="caret"></span>');
+  			});
     		
-    		$('.dropdown-menu li a').click(function(evt) {
+    		$('#tempoEmprestimo').find('li').find('a').click(function(evt) {
    			  evt.preventDefault();
-    		  $(this).parents().find('.dropdown-toggle').html($(this).text() + ' <span class="caret"></span>');
+    		  $('#btnDropTempEmp').html($(this).text() + ' <span class="caret"></span>');
 			});
     		
+    		inicializarObjDadosCalcJuros();
+    		inicializarObjResultadoCalcJuros();
     	
             $scope.vm = {
                 errorMessages: [],
@@ -17,13 +22,27 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
                 errorMessages: []
             };
             
-            $scope.dadosCalcJuros = {
-            	tipoJuros : '',
-            	capitalInicial : '',
-            	txJuros : '',
-            	tempo : ''
-            };
-
+            function inicializarObjDadosCalcJuros() {
+            	$scope.dadosCalcJuros = {
+        			tipoJuros : '',
+        			capitalInicial : '',
+        			taxaJurosDTO : {
+        				vlrTxJuros : '',
+        				tipoTempoTxJuros : 'M'
+        			},
+        			tempoEmprestDTO : {
+        				tempoEmprest : '',
+        				tipoTempoJuros : 'M'
+        			}
+            	};
+            }
+            
+            function inicializarObjResultadoCalcJuros() {
+            	$scope.resultadoCalcJuros = {
+        			juros : '',
+        			montante : ''
+            	};
+            }
 
             function showErrorMessage(errorMessage) {
                 clearMessages();
@@ -48,22 +67,43 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
                     $scope.vm.infoMessages = [];
                 }, 1000);
             }
+            
+            function mascararMoedaResultadoCalculos(resultadoCalcJuros) {
+            	$scope.resultadoCalcJuros.juros = 'R$ ' + $economia.fn.mascararMoeda(resultadoCalcJuros.juros);
+        		$scope.resultadoCalcJuros.montante = 'R$ ' + $economia.fn.mascararMoeda(resultadoCalcJuros	.montante);
+            }
+            
+            $scope.calcularJuros = function ($event) {
+            	$event.preventDefault();
+            	$scope.vm.submitted = true;
 
-            $scope.calcularJuros = function () {
-                
-                if ($scope.formJuros.$invalid) {
-                	$scope.vm.submitted = true;
+            	if ($scope.formJuros.$invalid) {
                     return;
                 }
+                
+                var scopeDadosCalcJuros = $scope.dadosCalcJuros;
+                
+                var dadosCalcJuros = {
+            		tipoJuros : scopeDadosCalcJuros.tipoJuros,
+        			capitalInicial : scopeDadosCalcJuros.capitalInicial.replace(/\.+/g, '').replace(/\,/, '.'),
+        			taxaJurosDTO : {
+        				vlrTxJuros : scopeDadosCalcJuros.taxaJurosDTO.vlrTxJuros.replace(/\.+/g, '').replace(/\,/, '.'),
+        				tipoTempoTxJuros : scopeDadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros
+        			},
+        			tempoEmprestDTO : {
+        				tempoEmprest : scopeDadosCalcJuros.tempoEmprestDTO.tempoEmprest,
+        				tipoTempoJuros : scopeDadosCalcJuros.tempoEmprestDTO.tipoTempoJuros
+        			}
+                };
 
-                JurosService.calcularJuros($scope.dadosCalcJuros)
-	                .then(function (data) {
-	                		$scope.resultadoCalcJuros = data;
-	                    },
-	                    function (errorMessage) {
-	                        showErrorMessage(errorMessage);
-	                    }
-	                );
+                JurosService.calcularJuros(dadosCalcJuros)
+                   .then(function (dataResultadoCalc) {
+                	    mascararMoedaResultadoCalculos(dataResultadoCalc);
+                    },
+                    function (errorMessage) {
+                        showErrorMessage(errorMessage);
+                    }
+                );
             };
 
             $scope.logout = function () {
@@ -71,7 +111,50 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
             };
             
             $scope.limparDadosInformados = function () {
-            	$scope.dadosCalcJuros = {};
+            	inicializarObjDadosCalcJuros();
+            	inicializarObjResultadoCalcJuros();
             	$scope.vm.submitted = false;
             };
-        }]);
+        }])
+        .directive('maskMoney', function () {
+            return {
+            	restrict: 'A',
+            	scope: {
+            	   ngModel: '='
+            	},
+            	link: function (scope, element, attrs) {
+           		  $(element).maskMoney({allowNegative: false, thousands: '.', decimal: ',', affixesStay: false});
+           		  
+           		  element.on('keyup', function() {
+           			var vlr = element.val();
+           			
+           			if(!_.isEqual(vlr, '0,00') && !_.isEqual(vlr, '000')) {
+           				scope.ngModel = vlr;
+           			} else {
+           				scope.ngModel = '';
+           			}
+           		  });
+                }
+            };
+        })
+        .directive('maskInteiro', function () {
+            return {
+            	restrict: 'A',
+            	scope: {
+            	   ngModel: '='
+            	},
+            	link: function (scope, element, attrs) {
+           		  $(element).maskMoney({allowNegative: false, thousands: '', decimal: '', affixesStay: false});
+           		  
+           		  element.on('keyup', function() {
+           			var vlr = element.val();
+           			
+           			if(!_.isEqual(vlr, '000')) {
+           				scope.ngModel = vlr;
+           			} else {
+           				scope.ngModel = '';
+           			}
+           		  });
+                }
+            };
+        });

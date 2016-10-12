@@ -31,7 +31,7 @@ require.config({
         engenhariaEconomicaApp: {
             deps: [ 'lodash', 'angular', 'angularMessages', 'frontendServices', 'bootstrap' ]
         }
-    }, 
+    }
 });
 
 require(['engenhariaEconomicaApp'], function () {

@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Calorie Tracker</title>
+    <title>Egenharia Econ&ocirc;mica</title>
     <link rel="stylesheet" type="text/css" href="/resources/bower_components/pure/pure.css">
     <link rel="stylesheet" type="text/css" href="/resources/bower_components/pure/grids-responsive.css">
     <link rel="stylesheet" type="text/css" href="/resources/public/css/pure-theme.css">
@@ -16,7 +16,7 @@
             <a class="pure-menu-heading" href="#">
                 <img class="logo" src="/resources/img/juros-simples.jpg">
             </a>
-            <span class="header-element page-title">Calorie Tracker</span>
+            <span class="header-element page-title">Egenharia Econ&ocirc;mica</span>
         </div>
     </header>
 
@@ -33,8 +33,8 @@
                                name="username" class="pure-input-1" placeholder="Username" required ng-minlength="6">
 
                         <div class="error-messages" ng-show="isMessagesVisible('username')" ng-messages="form.username.$error" ng-cloak>
-                            <div ng-message="required">The username is mandatory</div>
-                            <div ng-message="minlength">must have minimum 6 characters</div>
+                            <div ng-message="required">Campo obrigat&oacute;rio</div>
+                            <div ng-message="minlength">Deve ter no m&iacute;nimo 6 caracteres</div>
                         </div>
                     </div>
                     <div class="last-form-field">
@@ -42,24 +42,22 @@
                                name="password" class="pure-input-1" placeholder="Password" required ng-minlength="6"
                                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}">
                         <div class="error-messages" ng-show="isMessagesVisible('password')" ng-messages="form.password.$error" ng-cloak>
-                            <div ng-message="required">The password is mandatory</div>
-                            <div ng-message="minlength">must have minimum 6 characters</div>
-                            <div ng-message="pattern">At least one number and uppercase</div>
+                            <div ng-message="required">Campo obrigat&oacute;rio</div>
+                            <div ng-message="minlength">Deve ter no m&iacute;nimo 6 caracteres</div>
+                            <div ng-message="pattern">Ao menos 1 n&uacute;mero e uma letra mai&uacute;scula</div>
                         </div>
                     </div>
                 </fieldset>
 
                 <button type="submit" class="pure-button pure-input-1 pure-button-primary">Log In</button>
-                <a class="new-user-link" href="/resources/public/new-user.html">New user?</a>
+                <a class="new-user-link" href="/resources/public/new-user.html">Novo usu&aacute;rio?</a>
 
             </form>
         </div>
 
     </main>
 
-    <script type="text/javascript" data-main="/resources/public/js/run-loggin-app"
-            src="/resources/bower_components/requirejs/require.js"></script>
-
+    <script type="text/javascript" data-main="/resources/public/js/run-loggin-app" src="/resources/bower_components/requirejs/require.js" async></script>
 
 </body>
 </html>

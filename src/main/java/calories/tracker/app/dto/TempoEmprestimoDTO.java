@@ -5,9 +5,10 @@ import java.math.BigDecimal;
 
 public class TempoEmprestimoDTO implements Serializable {
     
-    private static final long serialVersionUID = -7908193216412715080L;
+    private static final long serialVersionUID = 4637882718555090271L;
     
-    BigDecimal tempoEmprest;
+    private BigDecimal tempoEmprest;
+    private String     tipoTempoJuros;
     
     public BigDecimal getTempoEmprest() {
 	return tempoEmprest;
@@ -15,5 +16,13 @@ public class TempoEmprestimoDTO implements Serializable {
     
     public void setTempoEmprest(BigDecimal tempoEmprest) {
 	this.tempoEmprest = tempoEmprest;
+    }
+    
+    public String getTipoTempoJuros() {
+	return tipoTempoJuros;
+    }
+    
+    public void setTipoTempoJuros(String tipoTempoJuros) {
+	this.tipoTempoJuros = tipoTempoJuros;
     }
 }

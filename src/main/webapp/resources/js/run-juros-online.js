@@ -8,7 +8,8 @@ require.config({
         maskMoney : '../bower_components/jquery-maskmoney-master/dist/jquery.maskMoney.min',
         frontendServices: 'frontend-services',
         jurosOnlineApp: 'juros-online-app',
-        bootstrap: '../bower_components/bootstrap-3.3.7-dist/js/bootstrap.min'
+        bootstrap: '../bower_components/bootstrap-3.3.7-dist/js/bootstrap.min',
+        economiaCommons : '../js/utils/economiaCommons'
     },
     shim: {
         jQuery: {
@@ -33,8 +34,11 @@ require.config({
         bootstrap : {
         	deps : ['jQuery']
         },
+        economiaCommons : {
+        	deps : ['jQuery']
+        },
         jurosOnlineApp: {
-            deps: [ 'jQuery', 'bootstrap', 'lodash', 'angular', 'angularMessages', 'frontendServices', 'maskMoney' ]
+            deps: [ 'lodash', 'angular', 'angularMessages', 'frontendServices', 'maskMoney', 'bootstrap', 'economiaCommons', 'jQuery' ]
         }
     }
 });

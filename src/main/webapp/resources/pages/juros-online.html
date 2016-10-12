@@ -49,64 +49,79 @@
                 <legend><h1 class="text-center success">Juros online</h1></legend>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label"><span> * </span> Tipo de Juros </label>
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Tipo de Juros </label>
                     <label class="radio-inline">
-                     <input type="radio" name="tipo" id="radioSimp" value="S" ng-model="dadosCalcJuros.tipoJuros"> 
+                     <input type="radio" name="tipoJuros" id="radioSimp" value="S" ng-model="dadosCalcJuros.tipoJuros" required> 
                      Simples
                    </label>
                    <label class="radio-inline">
-                     <input type="radio" name="tipo" id="radioComp" value="C" ng-model="dadosCalcJuros.tipoJuros">
+                     <input type="radio" name="tipoJuros" id="radioComp" value="C" ng-model="dadosCalcJuros.tipoJuros" required>
                       Compostos
                    </label>
+                   <div class="error-messages" ng-messages="formJuros.tipoJuros.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formJuros.tipoJuros.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label"><span> * </span> Capital Inicial </label>
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Capital Inicial </label>
                     <div class="input-group col-sm-2">
 					  <span class="input-group-addon">R$</span>
-	                  <input type="text" name="capitalInicial" class="form-control capitalInicial money" ng-model="dadosCalcJuros.capitalInicial" maxlength="16" size="16" 
-	                    placeholder="Informe o valor" required>
+	                  <input type="text" name="capitalInicial" class="form-control" mask-money 
+	                       ng-model="dadosCalcJuros.capitalInicial" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor" required>
                     </div>
-	                <div class="error-messages" ng-messages="formJuros.capitalInicial.$error">
+	                <div class="error-messages" ng-messages="formJuros.capitalInicial.$error" ng-cloak>
 	                   <span ng-message="required" ng-show="vm.submitted && formJuros.capitalInicial.$error.required">Campo obrigat&oacute;rio</span>
 	                </div>
                 </div>
                 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label"><span> * </span> Taxa de Juros </label>
-                    <div class="input-group col-sm-2">
-	                   <input type="text" class="money form-control txJuros" name="txJuros" ng-model="dadosCalcJuros.txJuros" maxlength="16" size="16"
-	                        placeholder="Informe a taxa" required>
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Taxa de Juros </label>
+                    <div class="input-group col-sm-3">
+	                   <input type="text" class="money form-control" name="vlrTxJuros" ng-model="dadosCalcJuros.taxaJurosDTO.vlrTxJuros" maxlength="16" size="16"
+	                        mask-money ng-model-options="{updateOn: 'keyup'}" placeholder="Informe a taxa" required>
 	                    <span class="input-group-addon">%</span>
+	                    <div class="input-group-btn">
+	                      <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempTxJur" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                          M&ecirc;s <span class="caret"></span>
+	                      </button>
+	                      <ul class="dropdown-menu dropdown-menu-right" id="tempoTxJuros">
+	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros='M'">M&ecirc;s</a></li>
+	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros='A'">Ano</a></li>
+	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros='D'">Dias</a></li>
+	                      </ul>
+	                    </div>
                     </div>
-                    <div class="error-messages" ng-messages="formJuros.txJuros.$error">
-                       <span ng-message="required" ng-show="vm.submitted && formJuros.txJuros.$error.required">Campo obrigat&oacute;rio</span>
+                    <div class="error-messages" ng-messages="formJuros.vlrTxJuros.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formJuros.vlrTxJuros.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
                  
                 <div class="form-group">
-		            <label class="col-sm-2 control-label"><span> * </span> Tempo </label>
+		            <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Tempo </label>
 				    <div class="input-group col-sm-2">
-				      <input type="text" class="form-control money tempo" name="tempo" ng-model="dadosCalcJuros.tempo" maxlength="6" size="6" placeholder="Informe o tempo" required>
+				      <input type="text" class="form-control" name="tempoEmprest" ng-model="dadosCalcJuros.tempoEmprestDTO.tempoEmprest"
+				            maskInteiro ng-model-options="{updateOn: 'keyup'}"
+				            maxlength="6" size="6" placeholder="Informe o tempo" required>
 				      <div class="input-group-btn">
-				        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempEmp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				            M&ecirc;s <span class="caret"></span>
 				        </button>
-				        <ul class="dropdown-menu dropdown-menu-right">
-				          <li><a href="#">M&ecirc;s</a></li>
-				          <li><a href="#">Ano</a></li>
-				          <li><a href="#">Dias</a></li>
+				        <ul class="dropdown-menu dropdown-menu-right" id="tempoEmprestimo">
+				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoJuros='M'">M&ecirc;s</a></li>
+				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoJuros='A'">Ano</a></li>
+				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoJuros='D'">Dias</a></li>
 				        </ul>
 				      </div>
 				    </div>
 				    
-                    <div class="error-messages" ng-messages="formJuros.tempo.$error">
-                       <span ng-message="required" ng-show="vm.submitted && formJuros.tempo.$error.required">Campo obrigat&oacute;rio</span>
+                    <div class="error-messages" ng-messages="formJuros.tempoEmprest.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formJuros.tempoEmprest.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
 			    </div>
                  
                <div class="form-group text-center">
-                   <button type="button" ng-click="calcularJuros()" class="btn btn-primary" name="btnCalcula">Calcular</button>
+                   <button type="submit" ng-click="calcularJuros($event)" class="btn btn-primary" name="btnCalcula">Calcular</button>
 	               <button type="button" class="btn btn-default" ng-click="limparDadosInformados()">Limpar</button>
 	           </div>
                  

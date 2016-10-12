@@ -21,3 +21,13 @@ a.logout:hover {
     width: 100px;
     display: inline-block;
 }
+
+.obrigatorio {
+    color: #e9322d;
+}
+
+.error-messages {
+	color: #e9322d;
+    float : right;
+    margin-right: 800px;
+}

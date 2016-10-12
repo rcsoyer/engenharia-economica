@@ -28,9 +28,9 @@ public class JurosController {
     @RequestMapping(value="/calcularJuros", method = RequestMethod.POST)
     public ResultadoCalcJurosDTO calcularJuros(Principal principal, @RequestBody DadosCalcJurosDTO dadosCalcJuros) {
 	if ("S".equals(dadosCalcJuros.getTipoJuros())) {
-	    return this.jurosService.calcResultadoJurosSimples(dadosCalcJuros);
+	    return this.jurosService.calcularResultadoJurosSimples(dadosCalcJuros);
 	}
 	
-	return this.jurosService.calcResultadoJurosCompostos(dadosCalcJuros);
+	return this.jurosService.calcularResultadoJurosCompostos(dadosCalcJuros);
     }
 }
