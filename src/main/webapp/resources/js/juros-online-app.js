@@ -69,8 +69,16 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
             }
             
             function mascararMoedaResultadoCalculos(resultadoCalcJuros) {
-            	$scope.resultadoCalcJuros.juros = 'R$ ' + $economia.fn.mascararMoeda(resultadoCalcJuros.juros);
-        		$scope.resultadoCalcJuros.montante = 'R$ ' + $economia.fn.mascararMoeda(resultadoCalcJuros.montante);
+            	var jurosMascarado = $economia.fn.mascararMoeda(resultadoCalcJuros.juros);
+            	var montanteMascarado = $economia.fn.mascararMoeda(resultadoCalcJuros.montante);
+            	
+            	if(_.isNumber(jurosMascarado) && _.isNumber(montanteMascarado)) {
+            		$scope.resultadoCalcJuros.juros = 'R$ ' + jurosMascarado;
+            		$scope.resultadoCalcJuros.montante = 'R$ ' + montanteMascarado;
+            	} else {
+            		$scope.resultadoCalcJuros.juros = 'R$ ' + resultadoCalcJuros.juros;
+            		$scope.resultadoCalcJuros.montante = 'R$ ' + resultadoCalcJuros.montante;
+            	}
             }
             
             $scope.calcularJuros = function ($event) {
@@ -91,7 +99,7 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
 	    				tipoTempoTxJuros : scopeDadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros
 	    			},
 	    			tempoEmprestDTO : {
-	    				tempoEmprest : scopeDadosCalcJuros.tempoEmprestDTO.tempoEmprest,
+	    				tempoEmprest : scopeDadosCalcJuros.tempoEmprestDTO.tempoEmprest.replace(/\.+/g, ''),
 	    				tipoTempoJuros : scopeDadosCalcJuros.tempoEmprestDTO.tipoTempoJuros
 	    			}
 	            };
@@ -129,7 +137,7 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
            		  element.on('keyup', function() {
            			var vlr = element.val();
            			
-           			if(!_.isEqual(vlr, '0,00') && !_.isEqual(vlr, '000')) {
+           			if(!_.isEqual(vlr, '0,00')) {
            				scope.ngModel = vlr;
            			} else {
            				scope.ngModel = '';

@@ -2,11 +2,17 @@ package calories.tracker.app.dto;
 
 import java.io.Serializable;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 public class ResultadoCalcJurosDTO implements Serializable {
     
     private static final long serialVersionUID = 3990143497827054680L;
     
+    @NumberFormat(style=Style.CURRENCY)
     private String juros;
+    
+    @NumberFormat(style=Style.CURRENCY)
     private String montante;
     
     public String getJuros() {
