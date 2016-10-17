@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Taxa de Juros </label>
                     <div class="input-group col-sm-2">
-	                   <input type="text" class="money form-control" name="vlrTxJuros" ng-model="dadosCalcJuros.taxaJurosDTO.vlrTxJuros" maxlength="10" size="10"
+	                   <input type="text" class="form-control" name="vlrTxJuros" ng-model="dadosCalcJuros.taxaJurosDTO.vlrTxJuros" maxlength="10" size="10"
 	                        mask-money ng-model-options="{updateOn: 'keyup'}" placeholder="Tx Juros" required>
 	                    <span class="input-group-addon">%</span>
 	                    <div class="input-group-btn">
@@ -100,9 +100,8 @@
                 <div class="form-group">
 		            <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Tempo </label>
 				    <div class="input-group col-sm-2">
-				      <input type="text" class="form-control" name="tempoEmprest" ng-model="dadosCalcJuros.tempoEmprestDTO.tempoEmprest"
-				            ng-model-options="{updateOn: 'keyup'}" maskInteiro
-				            maxlength="5" size="5" placeholder="Informe o tempo" required>
+				      <input type="text" class="form-control" name="tempoEmprest" ng-model="dadosCalcJuros.tempoEmprestDTO.tempoEmprest" mask-inteiro 
+				            ng-model-options="{updateOn: 'keyup'}" maxlength="5" size="5" placeholder="Informe o tempo" required>
 				      <div class="input-group-btn">
 				        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempEmp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				            M&ecirc;s <span class="caret"></span>

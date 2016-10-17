@@ -767,11 +767,12 @@ public class BigDecimalMath
                         BigDecimal resul = exp(ylogx) ;
 
                         /* The estimation of the relative error in the result is |log(x)*err(y)|+|y*err(x)/x| 
-                        */
+                        
                         double errR = Math.abs(logx.doubleValue()*y.ulp().doubleValue()/2.)
                                 + Math.abs(y.doubleValue()*x.ulp().doubleValue()/2./x.doubleValue()) ;
                         MathContext mcR = new MathContext( err2prec(1.0,errR) ) ;
-                        return resul.round(mcR) ;
+                        return resul.round(mcR) ;*/
+                        return resul;
                 }
         } /* BigDecimalMath.pow */
 

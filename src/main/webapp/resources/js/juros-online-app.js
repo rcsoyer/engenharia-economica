@@ -153,7 +153,7 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
             	   ngModel: '='
             	},
             	link: function (scope, element, attrs) {
-           		  $(element).maskMoney({allowNegative: false, thousands: '', decimal: '', affixesStay: false});
+           		  $(element).maskMoney({allowNegative: false, thousands: '.', decimal: '', affixesStay: false});
            		  
            		  element.on('keyup', function() {
            			var vlr = element.val();

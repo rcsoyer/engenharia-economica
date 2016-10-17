@@ -19,7 +19,7 @@ public class JurosService {
 	converterTemposMesmaProporcao(dadosCalcJurosDTO);
 	BigDecimal juros = calcularJurosSimples(dadosCalcJurosDTO);
 	resultado.setJuros(juros.setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
-	resultado.setMontante(calcularMontanteJurosSimples(dadosCalcJurosDTO.getCapitalInicial(), juros).toPlainString());
+	resultado.setMontante(calcularMontanteJurosSimples(dadosCalcJurosDTO.getCapitalInicial(), juros).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
 	return resultado;
     }
@@ -35,7 +35,7 @@ public class JurosService {
 		if(tipoTempoEmprest.equals(TiposTempoJuros.D.name())) {
 		    tempoEmprestimoDTO.setTempoEmprest(tempoEmprestimoDTO.getTempoEmprest().divide(MathCommons.DIAS_NO_MES, MathCommons.MATH_CONTEXT));
 		} else {
-		    tempoEmprestimoDTO.setTempoEmprest(tempoEmprestimoDTO.getTempoEmprest().multiply(MathCommons.MESES_NO_ANO, MathCommons.MATH_CONTEXT));
+		    tempoEmprestimoDTO.setTempoEmprest(tempoEmprestimoDTO.getTempoEmprest().multiply(MathCommons.MESES_NO_ANO));
 		}
 	    } else if(tipoTempoTxJuros.equals(TiposTempoJuros.A.name())) {
 		if(tipoTempoEmprest.equals(TiposTempoJuros.D.name())) {
@@ -45,9 +45,9 @@ public class JurosService {
 		}
 	    } else {
 		if(tipoTempoEmprest.equals(TiposTempoJuros.M.name())) {
-		    tempoEmprestimoDTO.setTempoEmprest(tempoEmprestimoDTO.getTempoEmprest().multiply(MathCommons.DIAS_NO_MES, MathCommons.MATH_CONTEXT));
+		    tempoEmprestimoDTO.setTempoEmprest(tempoEmprestimoDTO.getTempoEmprest().multiply(MathCommons.DIAS_NO_MES));
 		} else {
-		    tempoEmprestimoDTO.setTempoEmprest(tempoEmprestimoDTO.getTempoEmprest().multiply(MathCommons.DIAS_NO_ANO, MathCommons.MATH_CONTEXT));
+		    tempoEmprestimoDTO.setTempoEmprest(tempoEmprestimoDTO.getTempoEmprest().multiply(MathCommons.DIAS_NO_ANO));
 		}
 	    }
 	}
@@ -59,26 +59,35 @@ public class JurosService {
     }
     
     public BigDecimal calcularMontanteJurosSimples(BigDecimal capitalInicial, BigDecimal juros) {
-	return capitalInicial.add(juros, MathCommons.MATH_CONTEXT);
+	return capitalInicial.add(juros);
     }
     
     public ResultadoCalcJurosDTO calcularResultadoJurosCompostos(DadosCalcJurosDTO dadosCalcJurosDTO) {
 	ResultadoCalcJurosDTO resultado = new ResultadoCalcJurosDTO();
 	converterTemposMesmaProporcao(dadosCalcJurosDTO);
 	BigDecimal montante = calcularMontanteJurosCompostos(dadosCalcJurosDTO);
-	resultado.setMontante(montante.toPlainString());
-	resultado.setJuros(calcularJurosCompostos(montante, dadosCalcJurosDTO.getCapitalInicial()).toPlainString());
+	resultado.setMontante(montante.setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+	resultado.setJuros(calcularJurosCompostos(montante, dadosCalcJurosDTO.getCapitalInicial()).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
 	return resultado;
     }
-    
+    	
     public BigDecimal calcularMontanteJurosCompostos(DadosCalcJurosDTO dadosCalcJurosDTO) {
-	BigDecimal umTxJurosElevadoAoTempo = BigDecimalMath.pow(
-		BigDecimal.ONE.add(dadosCalcJurosDTO.getTaxaJurosDTO().obterTxJurosPor100()), dadosCalcJurosDTO.getTempoEmprestDTO().getTempoEmprest());
-	return dadosCalcJurosDTO.getCapitalInicial().multiply(umTxJurosElevadoAoTempo, MathCommons.MATH_CONTEXT);
+	BigDecimal umTxJurosElevadoAoTempo;
+	double umTxJurosElevadoAoTempoDouble = Math.pow(BigDecimal.ONE.add(dadosCalcJurosDTO.getTaxaJurosDTO().obterTxJurosPor100()).doubleValue(), 
+							dadosCalcJurosDTO.getTempoEmprestDTO().getTempoEmprest().doubleValue());
+	
+	if(Double.isFinite(umTxJurosElevadoAoTempoDouble)){
+	    umTxJurosElevadoAoTempo = BigDecimal.valueOf(umTxJurosElevadoAoTempoDouble);
+	} else {
+	    umTxJurosElevadoAoTempo = BigDecimalMath.pow(
+		    BigDecimal.ONE.add(dadosCalcJurosDTO.getTaxaJurosDTO().obterTxJurosPor100()), dadosCalcJurosDTO.getTempoEmprestDTO().getTempoEmprest());
+	}
+	
+	return dadosCalcJurosDTO.getCapitalInicial().multiply(umTxJurosElevadoAoTempo);
     }
     
     public BigDecimal calcularJurosCompostos(BigDecimal montante, BigDecimal capitalInicial) {
-	return montante.subtract(capitalInicial, MathCommons.MATH_CONTEXT);
+	return montante.subtract(capitalInicial);
     }
 }
