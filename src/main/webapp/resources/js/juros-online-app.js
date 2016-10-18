@@ -69,15 +69,17 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
             }
             
             function mascararMoedaResultadoCalculos(resultadoCalcJuros) {
-            	var jurosMascarado = $economia.fn.mascararMoeda(resultadoCalcJuros.juros);
-            	var montanteMascarado = $economia.fn.mascararMoeda(resultadoCalcJuros.montante);
+            	var jurosResultado = resultadoCalcJuros.juros;
+            	var montanteResultado = resultadoCalcJuros.montante;
+            	var jurosMascarado = $economia.fn.mascararMoeda(jurosResultado);
+            	var montanteMascarado = $economia.fn.mascararMoeda(montanteResultado);
             	
-            	if(_.isNumber(jurosMascarado) && _.isNumber(montanteMascarado)) {
+            	if(_.isEmpty(jurosMascarado) || _.isEmpty(montanteMascarado)) {
+            		$scope.resultadoCalcJuros.juros = 'R$ ' + jurosResultado;
+            		$scope.resultadoCalcJuros.montante = 'R$ ' + montanteResultado;
+            	} else {
             		$scope.resultadoCalcJuros.juros = 'R$ ' + jurosMascarado;
             		$scope.resultadoCalcJuros.montante = 'R$ ' + montanteMascarado;
-            	} else {
-            		$scope.resultadoCalcJuros.juros = 'R$ ' + resultadoCalcJuros.juros;
-            		$scope.resultadoCalcJuros.montante = 'R$ ' + resultadoCalcJuros.montante;
             	}
             }
             
@@ -153,12 +155,12 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
             	   ngModel: '='
             	},
             	link: function (scope, element, attrs) {
-           		  $(element).maskMoney({allowNegative: false, thousands: '.', decimal: '', affixesStay: false});
+           		  $(element).maskMoney({allowNegative: false, thousands: '.', affixesStay: false});
            		  
            		  element.on('keyup', function() {
            			var vlr = element.val();
            			
-           			if(!_.isEqual(vlr, '000')) {
+           			if(!_.isEqual(vlr, '0.00')) {
            				scope.ngModel = vlr;
            			} else {
            				scope.ngModel = '';
