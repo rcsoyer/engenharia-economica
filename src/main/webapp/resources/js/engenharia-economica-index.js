@@ -1,4 +1,4 @@
-angular.module('engenhariaEconomicaApp', ['frontendServices', 'spring-security-csrf-token-interceptor'])
+angular.module('engenhariaEconomicaApp', ['userService', 'spring-security-csrf-token-interceptor'])
 	.controller('EngenhariaEconomicaCtrl', ['$scope' , 'UserService', '$timeout',
         function ($scope, UserService, $timeout) {
             $scope.vm = {};
@@ -39,8 +39,16 @@ angular.module('engenhariaEconomicaApp', ['frontendServices', 'spring-security-c
                 }, 1000);
             }
             
-            $scope.loadJurosOnline = function () {
+            $scope.loadJurosApp = function () {
             	window.location.replace('/resources/pages/juros-online.html');
+            }
+            
+            $scope.loadSeriePagamentosVlrFuturoApp = function () {
+            	window.location.replace('/resources/pages/serie-pagamentos-valor-futuro.html');
+            }
+            
+            $scope.loadDescontosApp = function () {
+            	window.location.replace('/resources/pages/descontos.html');
             }
 
             $scope.logout = function () {

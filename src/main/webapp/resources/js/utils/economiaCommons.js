@@ -12,5 +12,77 @@ $economia.fn.mascararMoeda = function (valor) {
 	return '';
 };
 
+$economia.fn.voltarParaTelaInicial = function () {
+	window.location.replace('/resources/pages/engenharia-economica-index.html');
+};
+
+$economia.fn.maskMoney = function () {
+    return {
+    	restrict: 'A',
+    	scope: {
+    	   ngModel: '='
+    	},
+    	link: function (scope, element, attrs) {
+   		  $(element).maskMoney({allowNegative: false, thousands: '.', decimal: ',', affixesStay: false});
+   		  
+   		  element.on('keyup', function() {
+   			var vlr = element.val();
+   			
+   			if(!_.isEqual(vlr, '0,00')) {
+   				scope.ngModel = vlr;
+   			} else {
+   				scope.ngModel = '';
+   			}
+   		  });
+        }
+    };
+};
+
+$economia.fn.maskInteiro = function () {
+    return {
+    	restrict: 'A',
+    	scope: {
+    	   ngModel: '='
+    	},
+    	link: function (scope, element, attrs) {
+   		  $(element).maskMoney({allowNegative: false, thousands: '', decimal: '', affixesStay: false});
+   		  
+   		  element.on('keyup', function() {
+   			var vlr = element.val();
+   			
+   			if(!_.isEqual(vlr, '000')) {
+   				scope.ngModel = vlr;
+   			} else {
+   				scope.ngModel = '';
+   			}
+   		  });
+        }
+    }
+};
+
+$economia.fn.trocarTextTipoTempoTaxa = function () {
+    return {
+    	restrict: 'AE',
+    	link: function (scope, element, attrs) {
+    	  element.on('click', function(evt) {
+   			evt.preventDefault();
+   			$('#btnDropTempTaxa').html($(this).text() + ' <span class="caret"></span>');
+		  });
+	    }
+    }
+};
+
+$economia.fn.trocarTextTipoTempo = function () {
+    return {
+    	restrict: 'AE',
+    	link: function (scope, element, attrs) {
+    	  element.on('click', function(evt) {
+   			evt.preventDefault();
+   			$('#btnDropTemp').html($(this).text() + ' <span class="caret"></span>');
+		  });
+	    }
+    }
+};
+
 
 //# sourceURL=economiaCommons.js

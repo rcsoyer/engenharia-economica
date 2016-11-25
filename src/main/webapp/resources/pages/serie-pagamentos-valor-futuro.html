@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>S&eacute;rie de Pagamentos: Valor Futuro</title>
+        <link rel="stylesheet" href="/resources/bower_components/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/resources/public/css/engenharia-economica.css">
+    </head>
+    
+    <body id="seriePagamentosApp" ng-controller="SeriePagamentosCtrl">
+    
+       <main class="container">
+       
+          <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Engenharia Econ&ocirc;mica</a>
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                  <form class="navbar-form navbar-right">
+                    <div class="header-element username">
+                        <div class="username-placeholder" ng-hide="vm.userName"></div>
+                        <span ng-cloak>{{vm.userName}}</span>
+                    </div>
+                    <div class="header-element">
+                        <a class="logout" href="#" ng-click="logout()">Logout</a>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </nav>
+          
+          <br />
+          <br />
+          <br />
+          <br />
+          
+          <form class="form-horizontal" name="formSeriePagamentos" novalidate>
+          
+            <fieldset class="row">
+                <legend><h1 class="text-center success">S&eacute;rie de Pagamentos: Valor Futuro</h1></legend>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Valor a ser Resgatado </label>
+                    <div class="input-group col-sm-2">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" name="vlrResgatado" class="form-control" mask-money 
+                           ng-model="dadosSeriePg.vlrResgatado" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor" required>
+                    </div>
+                    <div class="error-messages" ng-messages="formSeriePagamentos.vlrResgatado.$error" ng-cloak>
+                       <span ng-message="required" ng-show="vm.submitted && formSeriePagamentos.vlrResgatado.$error.required">Campo obrigat&oacute;rio</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Quantidade de d&eacute;positos </label>
+                    <div class="input-group col-sm-2">
+                       <input type="text" class="form-control" name="qtdDepositos" ng-model="dadosSeriePg.qtdDepositos" maxlength="10" size="10"
+                            mask-inteiro ng-model-options="{updateOn: 'keyup'}" placeholder="Informe o valor" required>
+                    </div>
+                    <div class="error-messages" ng-messages="formSeriePagamentos.qtdDepositos.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formSeriePagamentos.qtdDepositos.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                 
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Valor do D&eacute;posito </label>
+                    <div class="input-group col-sm-2">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" name="vlrDeposito" class="form-control" mask-money 
+                           ng-model="dadosSeriePg.vlrDeposito" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor" required>
+                    </div>
+                    
+                    <div class="error-messages" ng-messages="formSeriePagamentos.vlrDeposito.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formSeriePagamentos.vlrDeposito.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Taxa </label>
+                    <div class="input-group col-sm-2">
+                      <input type="text" class="form-control" name="taxa" ng-model="dadosSeriePg.tempoEmprestDTO.tempo" mask-inteiro 
+                            ng-model-options="{updateOn: 'keyup'}" maxlength="5" size="5" placeholder="Informe o tempo" required>
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTemp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            M&ecirc;s <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" id="tempo">
+                          <li><a href="#" ng-click="dadosSeriePg.tempoEmprestDTO.tipoTempoPeriodo='M'">M&ecirc;s</a></li>
+                          <li><a href="#" ng-click="dadosSeriePg.tempoEmprestDTO.tipoTempoPeriodo='A'">Ano</a></li>
+                          <li><a href="#" ng-click="dadosSeriePg.tempoEmprestDTO.tipoTempoPeriodo='D'">Dias</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="error-messages" ng-messages="formSeriePagamentos.vlrPeriodo.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formSeriePagamentos.vlrPeriodo.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                 
+               <div class="form-group text-center">
+                   <button type="submit" ng-click="calcularSeriePagamentosVlrFuturo($event)" class="btn btn-primary" name="btnCalcula">Calcular</button>
+                   <button type="button" class="btn btn-default" ng-click="limparDadosInformados()">Limpar</button>
+                   <button type="button" class="btn btn-default"title="Voltar para tela inicial" ng-click="sair()">
+                       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                   </button>
+               </div>
+                 
+            </fieldset>
+
+            <fieldset class="row">
+                <strong><legend>Resultado</legend></strong>
+                <div class="well">
+                    <div>
+                        <label> Juros </label>
+                        <span ng-cloak>{{resultadoCalcJuros.juros}}</span>
+                    </div>
+                    <div>
+                        <label> Montante </label>
+                        <span ng-cloak>{{resultadoCalcJuros.montante}}</span>
+                    </div>
+                </div>
+            </fieldset>
+                
+        </form>
+       </main>
+       
+       <script type="text/javascript" data-main="/resources/js/run-apps/run-serie-pagamentos-vlr-futuro.js" src="/resources/bower_components/requirejs/require.js" async></script>
+    
+    </body>
+</html>

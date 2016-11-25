@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Descontos online</title>
+        <link rel="stylesheet" href="/resources/bower_components/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/resources/public/css/engenharia-economica.css">
+    </head>
+    
+    <body id="descontosApp" ng-controller="DescontosCtrl">
+    
+       <main class="container">
+       
+          <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Engenharia Econ&ocirc;mica</a>
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                  <form class="navbar-form navbar-right">
+                    <div class="header-element username">
+                        <div class="username-placeholder" ng-hide="vm.userName"></div>
+                        <span ng-cloak>{{vm.userName}}</span>
+                    </div>
+                    <div class="header-element">
+                        <a class="logout" href="#" ng-click="logout()">Logout</a>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </nav>
+          
+          <br />
+          <br />
+          <br />
+          <br />
+          
+          <form class="form-horizontal" name="formDescontos" novalidate>
+          
+            <fieldset class="row">
+                <legend><h1 class="text-center success">Descontos online</h1></legend>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Tipo de Desconto </label>
+                    <label class="radio-inline">
+                     <input type="radio" name="tipoDescontos" id="radioSimp" value="S" ng-model="dadosCalcDescontos.tipoDescontos" required> 
+                     Simples (Banc&aacute;rio)
+                   </label>
+                   <label class="radio-inline">
+                     <input type="radio" name="tipoDescontos" id="radioComp" value="C" ng-model="dadosCalcDescontos.tipoDescontos" required>
+                      Composto
+                   </label>
+                   <div class="error-messages" ng-messages="formDescontos.tipoDescontos.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formDescontos.tipoDescontos.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Valor do T&iacute;tulo </label>
+                    <div class="input-group col-sm-2">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" name="vlrTitulo" class="form-control" mask-money 
+                           ng-model="dadosCalcDescontos.vlrTitulo" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor" required>
+                    </div>
+                    <div class="error-messages" ng-messages="formDescontos.vlrTitulo.$error" ng-cloak>
+                       <span ng-message="required" ng-show="vm.submitted && formDescontos.vlrTitulo.$error.required">Campo obrigat&oacute;rio</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Taxa </label>
+                    <div class="input-group col-sm-2">
+                       <input type="text" class="form-control" name="vlrTaxa" ng-model="dadosCalcDescontos.taxaDTO.vlrTaxa" maxlength="6" size="6" mask-taxa-max 
+                             ng-model-options="{updateOn: 'keyup'}" placeholder="Taxa" mask-money required>
+                        <span class="input-group-addon">%</span>
+                        <div class="input-group-btn">
+                          <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempTaxa" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              M&ecirc;s <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu dropdown-menu-right" id="tempoTaxa">
+                            <li><a href="#" ng-click="dadosCalcDescontos.taxaDTO.tipoTempoTaxa='M'" trocar-text-tempo-taxa>M&ecirc;s</a></li>
+                            <li><a href="#" ng-click="dadosCalcDescontos.taxaDTO.tipoTempoTaxa='A'" trocar-text-tempo-taxa>Ano</a></li>
+                            <li><a href="#" ng-click="dadosCalcDescontos.taxaDTO.tipoTempoTaxa='D'" trocar-text-tempo-taxa>Dias</a></li>
+                          </ul>
+                        </div>
+                    </div>
+                    <div class="error-messages" ng-messages="formDescontos.vlrTaxa.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formDescontos.vlrTaxa.$error.required">Campo obrigat&oacute;rio</div>
+                       <div ng-message="vlrMaxTaxaInv" ng-show="formDescontos.vlrTaxa.$error.vlrMaxTaxaInv">Taxa m&aacute;xima permitida: 100,00%</div>
+                    </div>
+                </div>
+                 
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Tempo </label>
+                    <div class="input-group col-sm-2">
+                      <input type="text" class="form-control" name="vlrPeriodo" ng-model="dadosCalcDescontos.periodoDTO.vlrPeriodo" mask-inteiro 
+                            ng-model-options="{updateOn: 'keyup'}" maxlength="5" size="5" placeholder="Informe o tempo" required>
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTemp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            M&ecirc;s <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" id="vlrTipoTempoPeriodo">
+                          <li><a href="#" ng-click="dadosCalcDescontos.periodoDTO.tipoTempoPeriodo='M'" trocar-text-tempo>M&ecirc;s</a></li>
+                          <li><a href="#" ng-click="dadosCalcDescontos.periodoDTO.tipoTempoPeriodo='A'" trocar-text-tempo>Ano</a></li>
+                          <li><a href="#" ng-click="dadosCalcDescontos.periodoDTO.tipoTempoPeriodo='D'" trocar-text-tempo>Dias</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="error-messages" ng-messages="formDescontos.vlrPeriodo.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formDescontos.vlrPeriodo.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                 
+               <div class="form-group text-center">
+                   <button type="submit" ng-click="calcularDescontos($event)" class="btn btn-primary" name="btnCalcula" title="Realizar c&aacute;lculos">
+                       <span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>
+                   </button>
+                   <button type="button" class="btn btn-default" ng-click="limparDadosInformados()" title="Limpar dados informados">
+                      <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                   </button>
+                   <button type="button" class="btn btn-default" title="Voltar para tela inicial" ng-click="sairDaTela()">
+                       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                   </button>
+               </div>
+                 
+            </fieldset>
+
+            <fieldset class="row">
+                <strong><legend>Resultado</legend></strong>
+                <div class="well">
+                    <div>
+                        <label> Valor Descontado </label>
+                        <span ng-cloak>{{resultadoCalcDescontos.vlrDescontado}}</span>
+                    </div>
+                    <div>
+                        <label> Valor Creditado </label>
+                        <span ng-cloak>{{resultadoCalcDescontos.vlrCreditado}}</span>
+                    </div>
+                </div>
+            </fieldset>
+                
+        </form>
+       </main>
+       
+       <script type="text/javascript" data-main="/resources/js/run-apps/run-descontos" src="/resources/bower_components/requirejs/require.js" async></script>
+    
+    </body>
+</html>

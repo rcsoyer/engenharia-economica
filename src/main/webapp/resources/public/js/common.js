@@ -42,7 +42,7 @@ angular.module('common', ['ngMessages'])
             })
             .then(function(response) {
                 if (response.data == 'ok') {
-                    window.location.replace('/resources/engenharia-economica-index.html');
+                    window.location.replace('/resources/pages/engenharia-economica-index.html');
                 }
                 else {
                     $scope.vm.errorMessages = [];

@@ -13,24 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import engenharia.economica.app.dto.DadosCalcJurosDTO;
 import engenharia.economica.app.dto.ResultadoCalcJurosDTO;
-import engenharia.economica.app.services.JurosService;
+import engenharia.economica.app.services.SeriePagamentosVlrFuturoService;
 
 @RestController
-@RequestMapping("juros")
-public class JurosController {
+@RequestMapping("seriePagamentosVlrFuturo")
+public class SeriePagamentosVlrFuturoController {
     
-    Logger LOGGER = Logger.getLogger(JurosController.class);
+    Logger LOGGER = Logger.getLogger(SeriePagamentosVlrFuturoController.class);
     
     @Autowired
-    private JurosService jurosService;
+    private SeriePagamentosVlrFuturoService seriePagamentosVlrFuturoService;
     
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.POST)
     public ResultadoCalcJurosDTO calcularJuros(Principal principal, @RequestBody DadosCalcJurosDTO dadosCalcJuros) {
-	if ("S".equals(dadosCalcJuros.getTipoJuros())) {
-	    return this.jurosService.calcularResultadoJurosSimples(dadosCalcJuros);
-	}
-	
-	return this.jurosService.calcularResultadoJurosCompostos(dadosCalcJuros);
+	return null;
     }
 }

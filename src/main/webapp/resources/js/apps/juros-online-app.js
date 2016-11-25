@@ -1,38 +1,28 @@
-angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-token-interceptor'])
+angular.module('jurosOnlineApp', ['userService', 'jurosService', 'spring-security-csrf-token-interceptor'])
     .controller('JurosOnlineCtrl', ['$scope' , 'UserService', 'JurosService', '$timeout',
         function ($scope, UserService, JurosService, $timeout) {
     	
-    		$('#tempoTxJuros').find('li').find('a').click(function(evt) {
-    		  evt.preventDefault();
-      		  $('#btnDropTempTxJur').html($(this).text() + ' <span class="caret"></span>');
-  			});
-    		
-    		$('#tempoEmprestimo').find('li').find('a').click(function(evt) {
-   			  evt.preventDefault();
-    		  $('#btnDropTempEmp').html($(this).text() + ' <span class="caret"></span>');
-			});
-    		
-    		inicializarObjDadosCalcJuros();
-    		inicializarObjResultadoCalcJuros();
-    	
-            $scope.vm = {
+    		$scope.vm = {
                 errorMessages: [],
                 infoMessages: [],
                 submitted: false,
                 errorMessages: []
             };
-            
+    	
+    		inicializarObjDadosCalcJuros();
+    		inicializarObjResultadoCalcJuros();
+    	
             function inicializarObjDadosCalcJuros() {
             	$scope.dadosCalcJuros = {
         			tipoJuros : '',
         			capitalInicial : '',
         			taxaJurosDTO : {
-        				vlrTxJuros : '',
-        				tipoTempoTxJuros : 'M'
+        				vlrTaxa : '',
+        				tipoTempoTaxa : 'M'
         			},
         			tempoEmprestDTO : {
-        				tempoEmprest : '',
-        				tipoTempoJuros : 'M'
+        				vlrPeriodo : '',
+        				tipoTempoPeriodo : 'M'
         			}
             	};
             }
@@ -97,12 +87,12 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
 	        		tipoJuros : scopeDadosCalcJuros.tipoJuros,
 	    			capitalInicial : scopeDadosCalcJuros.capitalInicial.replace(/\.+/g, '').replace(/\,/, '.'),
 	    			taxaJurosDTO : {
-	    				vlrTxJuros : scopeDadosCalcJuros.taxaJurosDTO.vlrTxJuros.replace(/\.+/g, '').replace(/\,/, '.'),
-	    				tipoTempoTxJuros : scopeDadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros
+	    				vlrTaxa : scopeDadosCalcJuros.taxaJurosDTO.vlrTaxa.replace(/\.+/g, '').replace(/\,/, '.'),
+	    				tipoTempoTaxa : scopeDadosCalcJuros.taxaJurosDTO.tipoTempoTaxa
 	    			},
 	    			tempoEmprestDTO : {
-	    				tempoEmprest : scopeDadosCalcJuros.tempoEmprestDTO.tempoEmprest.replace(/\.+/g, ''),
-	    				tipoTempoJuros : scopeDadosCalcJuros.tempoEmprestDTO.tipoTempoJuros
+	    				vlrPeriodo : scopeDadosCalcJuros.tempoEmprestDTO.vlrPeriodo,
+	    				tipoTempoPeriodo : scopeDadosCalcJuros.tempoEmprestDTO.tipoTempoPeriodo
 	    			}
 	            };
 	
@@ -120,52 +110,18 @@ angular.module('jurosOnlineApp', ['frontendServices', 'spring-security-csrf-toke
                 UserService.logout();
             };
             
+            $scope.sairDaTela = function () {
+            	$economia.fn.voltarParaTelaInicial();
+            };
+            
             $scope.limparDadosInformados = function () {
             	inicializarObjDadosCalcJuros();
             	inicializarObjResultadoCalcJuros();
-            	$('#btnDropTempTxJur, #btnDropTempEmp').html('M&ecirc;s' + ' <span class="caret"></span>');
+            	$('#btnDropTempTaxa, #btnDropTemp').html('M&ecirc;s' + ' <span class="caret"></span>');
             	$scope.vm.submitted = false;
             };
         }])
-        .directive('maskMoney', function () {
-            return {
-            	restrict: 'A',
-            	scope: {
-            	   ngModel: '='
-            	},
-            	link: function (scope, element, attrs) {
-           		  $(element).maskMoney({allowNegative: false, thousands: '.', decimal: ',', affixesStay: false});
-           		  
-           		  element.on('keyup', function() {
-           			var vlr = element.val();
-           			
-           			if(!_.isEqual(vlr, '0,00')) {
-           				scope.ngModel = vlr;
-           			} else {
-           				scope.ngModel = '';
-           			}
-           		  });
-                }
-            };
-        })
-        .directive('maskInteiro', function () {
-            return {
-            	restrict: 'A',
-            	scope: {
-            	   ngModel: '='
-            	},
-            	link: function (scope, element, attrs) {
-           		  $(element).maskMoney({allowNegative: false, thousands: '', decimal: '', affixesStay: false});
-           		  
-           		  element.on('keyup', function() {
-           			var vlr = element.val();
-           			
-           			if(!_.isEqual(vlr, '0.00')) {
-           				scope.ngModel = vlr;
-           			} else {
-           				scope.ngModel = '';
-           			}
-           		  });
-                }
-            };
-        });
+        .directive('maskMoney', $economia.fn.maskMoney)
+        .directive('maskInteiro', $economia.fn.maskInteiro)
+        .directive('trocarTextTempoTaxa', $economia.fn.trocarTextTipoTempoTaxa)
+		.directive('trocarTextTempo', $economia.fn.trocarTextTipoTempo);

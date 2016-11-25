@@ -78,51 +78,58 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Taxa de Juros </label>
                     <div class="input-group col-sm-2">
-	                   <input type="text" class="form-control" name="vlrTxJuros" ng-model="dadosCalcJuros.taxaJurosDTO.vlrTxJuros" maxlength="10" size="10"
+	                   <input type="text" class="form-control" name="vlrTaxa" ng-model="dadosCalcJuros.taxaJurosDTO.vlrTaxa" maxlength="10" size="10"
 	                        mask-money ng-model-options="{updateOn: 'keyup'}" placeholder="Tx Juros" required>
 	                    <span class="input-group-addon">%</span>
 	                    <div class="input-group-btn">
-	                      <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempTxJur" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                      <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempTaxa" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	                          M&ecirc;s <span class="caret"></span>
 	                      </button>
 	                      <ul class="dropdown-menu dropdown-menu-right" id="tempoTxJuros">
-	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros='M'">M&ecirc;s</a></li>
-	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros='A'">Ano</a></li>
-	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTxJuros='D'">Dias</a></li>
+	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTaxa='M'" trocar-text-tempo-taxa>M&ecirc;s</a></li>
+	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTaxa='A'" trocar-text-tempo-taxa>Ano</a></li>
+	                        <li><a href="#" ng-click="dadosCalcJuros.taxaJurosDTO.tipoTempoTaxa='D'" trocar-text-tempo-taxa>Dias</a></li>
 	                      </ul>
 	                    </div>
                     </div>
-                    <div class="error-messages" ng-messages="formJuros.vlrTxJuros.$error" ng-cloak>
-                       <div ng-message="required" ng-show="vm.submitted && formJuros.vlrTxJuros.$error.required">Campo obrigat&oacute;rio</div>
+                    <div class="error-messages" ng-messages="formJuros.vlrTaxa.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formJuros.vlrTaxa.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
                  
                 <div class="form-group">
 		            <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Tempo </label>
 				    <div class="input-group col-sm-2">
-				      <input type="text" class="form-control" name="tempoEmprest" ng-model="dadosCalcJuros.tempoEmprestDTO.tempoEmprest" mask-inteiro 
+				      <input type="text" class="form-control" name="vlrPeriodo" ng-model="dadosCalcJuros.tempoEmprestDTO.vlrPeriodo" mask-inteiro 
 				            ng-model-options="{updateOn: 'keyup'}" maxlength="5" size="5" placeholder="Informe o tempo" required>
 				      <div class="input-group-btn">
-				        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempEmp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTemp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				            M&ecirc;s <span class="caret"></span>
 				        </button>
 				        <ul class="dropdown-menu dropdown-menu-right" id="tempoEmprestimo">
-				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoJuros='M'">M&ecirc;s</a></li>
-				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoJuros='A'">Ano</a></li>
-				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoJuros='D'">Dias</a></li>
+				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoPeriodo='M'" trocar-text-tempo>M&ecirc;s</a></li>
+				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoPeriodo='A'" trocar-text-tempo>Ano</a></li>
+				          <li><a href="#" ng-click="dadosCalcJuros.tempoEmprestDTO.tipoTempoPeriodo='D'" trocar-text-tempo>Dias</a></li>
 				        </ul>
 				      </div>
 				    </div>
 				    
-                    <div class="error-messages" ng-messages="formJuros.tempoEmprest.$error" ng-cloak>
-                       <div ng-message="required" ng-show="vm.submitted && formJuros.tempoEmprest.$error.required">Campo obrigat&oacute;rio</div>
+                    <div class="error-messages" ng-messages="formJuros.vlrPeriodo.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formJuros.vlrPeriodo.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
 			    </div>
                  
-               <div class="form-group text-center">
-                   <button type="submit" ng-click="calcularJuros($event)" class="btn btn-primary" name="btnCalcula">Calcular</button>
-	               <button type="button" class="btn btn-default" ng-click="limparDadosInformados()">Limpar</button>
-	           </div>
+	           <div class="form-group text-center">
+                   <button type="submit" ng-click="calcularJuros($event)" class="btn btn-primary" name="btnCalcula" title="Realizar c&aacute;lculos">
+                       <span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>
+                   </button>
+                   <button type="button" class="btn btn-default" ng-click="limparDadosInformados()" title="Limpar dados informados">
+                      <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                   </button>
+                   <button type="button" class="btn btn-default" title="Voltar para tela inicial" ng-click="sairDaTela()">
+                       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                   </button>
+               </div>
                  
             </fieldset>
 
@@ -143,7 +150,7 @@
 	    </form>
        </main>
        
-       <script type="text/javascript" data-main="/resources/js/run-juros-online" src="/resources/bower_components/requirejs/require.js" async></script>
+       <script type="text/javascript" data-main="/resources/js/run-apps/run-juros-online" src="/resources/bower_components/requirejs/require.js" async></script>
     
     </body>
 </html>
