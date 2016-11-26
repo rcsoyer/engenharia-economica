@@ -20,36 +20,36 @@ public final class MathCommons {
     public static final BigDecimal MESES_NO_ANO_BIG_DEC = new BigDecimal(12);
     public static final BigDecimal DIAS_NO_ANO_BIG_DEC = new BigDecimal(365);
     public static final MathContext MATH_CONTEXT_2 = new MathContext(2, RoundingMode.HALF_EVEN);
-    public static final MathContext MATH_CONTEXT_100 = new MathContext(100, RoundingMode.HALF_EVEN);
+    public static final MathContext MATH_CONTEXT_100000 = new MathContext(100000, RoundingMode.HALF_EVEN);
     
     public static BigDecimal converterTemposMesmaProporcao(String tipoTempoTaxa, PeriodoDTO periodoDTO) {
 	String tipoTempoPeriodo = periodoDTO.getTipoTempoPeriodo();
 	BigDecimal vlrPeriodo   = periodoDTO.getVlrPeriodo();
 	
 	if (!tipoTempoPeriodo.equals(tipoTempoTaxa)) {
-	    double vlrPeriodoConvertido = vlrPeriodo.doubleValue();
+	    BigDecimal vlrPeriodoConvertido = null;
 	    
 	    if(tipoTempoTaxa.equals(TiposTempoJuros.M.name())) {
 		if(tipoTempoPeriodo.equals(TiposTempoJuros.D.name())) {
-		    vlrPeriodoConvertido /= MathCommons.DIAS_NO_MES_DOUBLE;
+		    vlrPeriodoConvertido = vlrPeriodo.divide(DIAS_NO_MES_BIG_DEC, MATH_CONTEXT_100000);
 		} else {
-		    vlrPeriodoConvertido *= MathCommons.MESES_NO_ANO_DOUBLE;
+		    vlrPeriodoConvertido = vlrPeriodo.multiply(MathCommons.MESES_NO_ANO_BIG_DEC);
 		}
 	    } else if(tipoTempoTaxa.equals(TiposTempoJuros.A.name())) {
 		if(tipoTempoPeriodo.equals(TiposTempoJuros.D.name())) {
-		    vlrPeriodoConvertido /= MathCommons.DIAS_NO_ANO_DOUBLE;
+		    vlrPeriodoConvertido = vlrPeriodo.divide(MathCommons.DIAS_NO_ANO_BIG_DEC, MATH_CONTEXT_100000);
 		} else {
-		    vlrPeriodoConvertido /= MathCommons.MESES_NO_ANO_DOUBLE;
+		    vlrPeriodoConvertido = vlrPeriodo.divide(MathCommons.MESES_NO_ANO_BIG_DEC, MATH_CONTEXT_100000);
 		}
 	    } else {
 		if(tipoTempoPeriodo.equals(TiposTempoJuros.M.name())) {
-		    vlrPeriodoConvertido *= MathCommons.DIAS_NO_MES_DOUBLE;
+		    vlrPeriodoConvertido = vlrPeriodo.multiply(MathCommons.DIAS_NO_MES_BIG_DEC);
 		} else {
-		    vlrPeriodoConvertido *= MathCommons.DIAS_NO_ANO_DOUBLE;
+		    vlrPeriodoConvertido = vlrPeriodo.multiply(MathCommons.DIAS_NO_ANO_BIG_DEC);
 		}
 	    }
 	    
-	    return BigDecimal.valueOf(vlrPeriodoConvertido);
+	    return vlrPeriodoConvertido;
 	}
 	
 	tipoTempoPeriodo = null;
@@ -62,7 +62,8 @@ public final class MathCommons {
 	
 	if (!tipoTempoDepositos.equals(tipoTempoTaxa)) {
 	    double vlrTaxaConvertido;
-	    double umMaisVlrTaxaDouble = BigDecimal.ONE.add(taxaPorCem).doubleValue();
+	    BigDecimal umMaisTaxa = BigDecimal.ONE.add(taxaPorCem);
+	    double umMaisVlrTaxaDouble = umMaisTaxa.doubleValue();
 	    double umDouble = 1.0;
 	    
 	    if(tipoTempoTaxa.equals(TiposTempoJuros.M.name())) {
@@ -81,9 +82,17 @@ public final class MathCommons {
 		if(tipoTempoDepositos.equals(TiposTempoJuros.M.name())) {
 		    vlrTaxaConvertido = Math.pow(umMaisVlrTaxaDouble, DIAS_NO_MES_DOUBLE) - umDouble;
 		} else {
-		    vlrTaxaConvertido = Math.pow(umMaisVlrTaxaDouble, DIAS_NO_ANO_DOUBLE) - umDouble;
+		    double umMaisVlrTaxaElevadoAnoDouble = Math.pow(umMaisVlrTaxaDouble, DIAS_NO_ANO_DOUBLE);
+		    
+		    if (!Double.isFinite(umMaisVlrTaxaElevadoAnoDouble)) {
+			return BigDecimalMath.pow(umMaisTaxa, DIAS_NO_ANO_BIG_DEC).subtract(BigDecimal.ONE);
+		    }
+		    
+		    vlrTaxaConvertido = umMaisVlrTaxaElevadoAnoDouble - umDouble;
 		}
 	    }
+	    
+	    umMaisTaxa = null;
 	    
 	    return BigDecimal.valueOf(vlrTaxaConvertido);
 	}

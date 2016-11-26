@@ -78,7 +78,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Quantidade de Dep&oacute;sitos </label>
                     <div class="row col-sm-2">
-                       <input type="text" class="form-control" name="qtdDepositos" ng-model="dadosCalcSeriePgVlrFuturo.qtdDepositos" maxlength="10" size="10" 
+                       <input type="text" class="form-control" name="qtdDepositos" ng-model="dadosCalcSeriePgVlrFuturo.qtdDepositos" maxlength="6" size="6" 
                         mask-inteiro ng-model-options="{updateOn: 'keyup'}" placeholder="Informe o valor" ng-disabled="dadosCalcSeriePgVlrFuturo.vrDescobrir == 'QD'"
                         ng-required="dadosCalcSeriePgVlrFuturo.vrDescobrir != 'QD'">
                     </div>
@@ -116,7 +116,7 @@
                     <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Taxa </label>
                     <div class="input-group col-sm-2">
                       <input type="text" class="form-control" name="vlrTaxa" ng-model="dadosCalcSeriePgVlrFuturo.taxaDTO.vlrTaxa" mask-money 
-                            ng-model-options="{updateOn: 'keyup'}" maxlength="10" size="10" placeholder="Taxa" required>
+                            ng-model-options="{updateOn: 'keyup'}" maxlength="9" size="9" placeholder="Taxa" required>
                       <div class="input-group-btn">
                         <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempTaxa" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             M&ecirc;s <span class="caret"></span>

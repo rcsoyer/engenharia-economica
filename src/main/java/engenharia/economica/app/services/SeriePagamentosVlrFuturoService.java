@@ -17,12 +17,12 @@ public class SeriePagamentosVlrFuturoService {
 	ResultadoCalcSeriePgDTO resultadoCalcSeriePg = new ResultadoCalcSeriePgDTO();
 	DepositoDTO depositoDTO = dadosCalcSeriePgVlrFuturoDTO.getDepositoDTO();
 	BigDecimal taxaConvertida = MathCommons.converterTemposMesmaProporcaoBaseTaxa(dadosCalcSeriePgVlrFuturoDTO.getTaxaDTO(), depositoDTO.getTipoTempoDepositos());
-	BigDecimal umMaisTxElevadoQtdDepositos = calcularUmMaisTxElevadoQtdDepositos(dadosCalcSeriePgVlrFuturoDTO, taxaConvertida);
+	BigDecimal umMaisTxElevadoQtdDepositosMenosUm = calcularUmMaisTxElevadoQtdDepositosMenos1(dadosCalcSeriePgVlrFuturoDTO, taxaConvertida);
 	
-	resultadoCalcSeriePg.setResultado(depositoDTO.getVlrDeposito().multiply(
-	  umMaisTxElevadoQtdDepositos.subtract(BigDecimal.ONE)).divide(taxaConvertida, MathCommons.MATH_CONTEXT_100).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+	resultadoCalcSeriePg.setResultado(depositoDTO.getVlrDeposito()
+		.multiply(umMaisTxElevadoQtdDepositosMenosUm).divide(taxaConvertida, MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
-	umMaisTxElevadoQtdDepositos = taxaConvertida = null;
+	umMaisTxElevadoQtdDepositosMenosUm = taxaConvertida = null;
 	depositoDTO = null;
 	
 	return resultadoCalcSeriePg;
@@ -32,18 +32,18 @@ public class SeriePagamentosVlrFuturoService {
 	ResultadoCalcSeriePgDTO resultadoCalcSeriePg = new ResultadoCalcSeriePgDTO();
 	DepositoDTO depositoDTO = dadosCalcSeriePgVlrFuturoDTO.getDepositoDTO();
 	BigDecimal taxaConvertida = MathCommons.converterTemposMesmaProporcaoBaseTaxa(dadosCalcSeriePgVlrFuturoDTO.getTaxaDTO(), depositoDTO.getTipoTempoDepositos());
-	BigDecimal umMaisTxElevadoQtdDepositos = calcularUmMaisTxElevadoQtdDepositos(dadosCalcSeriePgVlrFuturoDTO, taxaConvertida);
+	BigDecimal umMaisTxElevadoQtdDepositosMenosUm = calcularUmMaisTxElevadoQtdDepositosMenos1(dadosCalcSeriePgVlrFuturoDTO, taxaConvertida);
 	
 	resultadoCalcSeriePg.setResultado(dadosCalcSeriePgVlrFuturoDTO.getVlrResgatado().multiply(taxaConvertida)
-		.divide(umMaisTxElevadoQtdDepositos.subtract(BigDecimal.ONE), MathCommons.MATH_CONTEXT_100).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+		.divide(umMaisTxElevadoQtdDepositosMenosUm, MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
-	umMaisTxElevadoQtdDepositos = taxaConvertida = null;
+	umMaisTxElevadoQtdDepositosMenosUm = taxaConvertida = null;
 	depositoDTO = null;
 	
 	return resultadoCalcSeriePg;
     }
     
-    private BigDecimal calcularUmMaisTxElevadoQtdDepositos(DadosCalcSeriePgVlrFuturoDTO dadosCalcSeriePgVlrFuturoDTO, BigDecimal taxaConvertida) {
+    private BigDecimal calcularUmMaisTxElevadoQtdDepositosMenos1(DadosCalcSeriePgVlrFuturoDTO dadosCalcSeriePgVlrFuturoDTO, BigDecimal taxaConvertida) {
 	BigDecimal umMaisTxElevadoQtdDepositos;
 	BigDecimal umMaisTaxa = BigDecimal.ONE.add(taxaConvertida);
 	BigDecimal qtdDepositos = dadosCalcSeriePgVlrFuturoDTO.getQtdDepositos();
@@ -55,9 +55,9 @@ public class SeriePagamentosVlrFuturoService {
 	    umMaisTxElevadoQtdDepositos = BigDecimalMath.pow(umMaisTaxa, qtdDepositos);
 	}
 	
-	taxaConvertida = umMaisTaxa = qtdDepositos = null;
+	umMaisTaxa = qtdDepositos = null;
 	
-	return umMaisTxElevadoQtdDepositos;
+	return umMaisTxElevadoQtdDepositos.subtract(BigDecimal.ONE);
     }
     
     public ResultadoCalcSeriePgDTO calcularQtdDepositos(DadosCalcSeriePgVlrFuturoDTO dadosCalcSeriePgVlrFuturoDTO) {
@@ -68,7 +68,7 @@ public class SeriePagamentosVlrFuturoService {
 	BigDecimal vlrDeposito = depositoDTO.getVlrDeposito();
 	BigDecimal taxaConvertida = MathCommons.converterTemposMesmaProporcaoBaseTaxa(dadosCalcSeriePgVlrFuturoDTO.getTaxaDTO(), depositoDTO.getTipoTempoDepositos());
 	BigDecimal vlrResgatadoMultTxAddDepositoDivideDeposito =
-		dadosCalcSeriePgVlrFuturoDTO.getVlrResgatado().multiply(taxaConvertida).add(vlrDeposito).divide(vlrDeposito, MathCommons.MATH_CONTEXT_100);
+		dadosCalcSeriePgVlrFuturoDTO.getVlrResgatado().multiply(taxaConvertida).add(vlrDeposito).divide(vlrDeposito, MathCommons.MATH_CONTEXT_100000);
 	double vlrResgatadoMultTxAddDepositoDivideDepositoLog10Double = Math.log10(vlrResgatadoMultTxAddDepositoDivideDeposito.doubleValue());
 	BigDecimal umMaisTaxa = BigDecimal.ONE.add(taxaConvertida);
 	double umMaisTaxaLog10Double = Math.log10(umMaisTaxa.doubleValue());
@@ -86,7 +86,10 @@ public class SeriePagamentosVlrFuturoService {
 	}
 	
 	resultadoCalcSeriePg.setResultado(
-	   vlrResgatadoMultTxAddDepositoDivideDepositoLog10.divide(umMaisTaxaLog10, MathCommons.MATH_CONTEXT_100).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+	   vlrResgatadoMultTxAddDepositoDivideDepositoLog10.divide(umMaisTaxaLog10, MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+	
+	umMaisTaxaLog10 = vlrResgatadoMultTxAddDepositoDivideDepositoLog10 = vlrDeposito = taxaConvertida = vlrResgatadoMultTxAddDepositoDivideDeposito = umMaisTaxa = null;
+	depositoDTO = null;
 	
 	return resultadoCalcSeriePg;
     }
