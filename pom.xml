@@ -2,10 +2,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.spring.mvc.angularjs</groupId>
-    <artifactId>calories-tracker</artifactId>
+    <artifactId>engenharia-economica</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>calories-tracker Maven Webapp</name>
+    <name>engenharia-economica Maven Webapp</name>
 
     <properties>
         <java-version>1.8</java-version>
@@ -179,7 +179,7 @@
     </dependencies>
 
     <build>
-        <finalName>calories-tracker</finalName>
+        <finalName>engenharia-economica</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -208,7 +208,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
                     <path>/</path>
-                    <httpsPort>8443</httpsPort>
+                    <contextReloadable>true</contextReloadable>
                     <keystoreFile>${basedir}/other/keystore.jks</keystoreFile>
                     <keystorePass>secret</keystorePass>
                 </configuration>

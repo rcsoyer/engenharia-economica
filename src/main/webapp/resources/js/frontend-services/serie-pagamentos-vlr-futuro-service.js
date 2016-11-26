@@ -1,10 +1,10 @@
-angular.module('seriePagamentosVlrFuturoService', [])
-    .service('SeriePagamentosVlrFuturoService', ['$http', '$q', function($http, $q) {
+angular.module('seriePgVlrFuturoService', [])
+    .service('SeriePgVlrFuturoService', ['$http', '$q', function($http, $q) {
         return {
-	        calcularSeriePagamentosVlrFuturo : function(dadosSeriePg) {
+        	calcularSeriePgVlrFuturo : function(dadosCalcSeriePg) {
 	        	var deferred = $q.defer();
 	
-	            $http.post('/seriePagamentosVlrFuturo', dadosSeriePg)
+	            $http.post('/seriePgVlrFuturo', dadosCalcSeriePg)
 	            	.then(function (response) {
 	                    if (response.status == 200) {
 	                        return deferred.resolve(response.data);

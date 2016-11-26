@@ -16,8 +16,7 @@ public class JurosService {
     public ResultadoCalcJurosDTO calcularResultadoJurosSimples(DadosCalcJurosDTO dadosCalcJurosDTO) {
 	ResultadoCalcJurosDTO resultado = new ResultadoCalcJurosDTO();
 	PeriodoDTO periodo = dadosCalcJurosDTO.getTempoEmprestDTO();
-	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(
-		dadosCalcJurosDTO.getTaxaJurosDTO().getTipoTempoTaxa(), periodo.getTipoTempoPeriodo(), periodo.getVlrPeriodo()));
+	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(dadosCalcJurosDTO.getTaxaJurosDTO().getTipoTempoTaxa(), periodo));
 	BigDecimal juros = calcularJurosSimples(dadosCalcJurosDTO);
 	resultado.setJuros(juros.setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	resultado.setMontante(calcularMontanteJurosSimples(dadosCalcJurosDTO.getCapitalInicial(), juros).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
@@ -40,8 +39,7 @@ public class JurosService {
     public ResultadoCalcJurosDTO calcularResultadoJurosCompostos(DadosCalcJurosDTO dadosCalcJurosDTO) {
 	ResultadoCalcJurosDTO resultado = new ResultadoCalcJurosDTO();
 	PeriodoDTO periodo = dadosCalcJurosDTO.getTempoEmprestDTO();
-	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(
-		dadosCalcJurosDTO.getTaxaJurosDTO().getTipoTempoTaxa(), periodo.getTipoTempoPeriodo(), periodo.getVlrPeriodo()));
+	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(dadosCalcJurosDTO.getTaxaJurosDTO().getTipoTempoTaxa(), periodo));
 	BigDecimal montante = calcularMontanteJurosCompostos(dadosCalcJurosDTO);
 	resultado.setMontante(montante.setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	resultado.setJuros(calcularJurosCompostos(montante, dadosCalcJurosDTO.getCapitalInicial()).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());

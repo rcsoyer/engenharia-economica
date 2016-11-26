@@ -16,8 +16,7 @@ public class DescontosService {
     public ResultadoCalcDescontosDTO calcularResultadoDescontosSimples(DadosCalcDescontosDTO dadosCalcDescontosDTO) {
 	ResultadoCalcDescontosDTO resultado = new ResultadoCalcDescontosDTO();
 	PeriodoDTO periodo = dadosCalcDescontosDTO.getPeriodoDTO();
-	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(
-		dadosCalcDescontosDTO.getTaxaDTO().getTipoTempoTaxa(), periodo.getTipoTempoPeriodo(), periodo.getVlrPeriodo()));
+	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(dadosCalcDescontosDTO.getTaxaDTO().getTipoTempoTaxa(), periodo));
 	BigDecimal vlrDescontado = calcularVlrDescontadoSimples(dadosCalcDescontosDTO);
 	resultado.setVlrDescontado(vlrDescontado.setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	resultado.setVlrCreditado(calcularVlrCreditadoSimples(dadosCalcDescontosDTO.getVlrTitulo(), vlrDescontado).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
@@ -40,8 +39,7 @@ public class DescontosService {
     public ResultadoCalcDescontosDTO calcularResultadoDescontosCompostos(DadosCalcDescontosDTO dadosCalcDescontosDTO) {
 	ResultadoCalcDescontosDTO resultado = new ResultadoCalcDescontosDTO();
 	PeriodoDTO periodo = dadosCalcDescontosDTO.getPeriodoDTO();
-	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(
-		dadosCalcDescontosDTO.getTaxaDTO().getTipoTempoTaxa(), periodo.getTipoTempoPeriodo(), periodo.getVlrPeriodo()));
+	periodo.setVlrPeriodo(MathCommons.converterTemposMesmaProporcao(dadosCalcDescontosDTO.getTaxaDTO().getTipoTempoTaxa(), periodo));
 	BigDecimal vlrCreditado = calcularVlrCreditadoComposto(dadosCalcDescontosDTO);
 	BigDecimal vlrDescontado = calcularVlrDescontadoComposto(dadosCalcDescontosDTO.getVlrTitulo(), vlrCreditado);
 	resultado.setVlrDescontado(vlrDescontado.setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());

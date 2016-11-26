@@ -7,7 +7,7 @@ require.config({
         jQuery: '/resources/bower_components/jquery/jquery-3.1.1.min', 
         maskMoney : '/resources/bower_components/jquery-maskmoney-master/dist/jquery.maskMoney.min',
         userService: '/resources/js/frontend-services/user-service',
-        seriePagamentosVlrFuturoService: '/resources/js/frontend-services/serie-pagamentos-vlr-futuro-services',
+        seriePgVlrFuturoService: '/resources/js/frontend-services/serie-pagamentos-vlr-futuro-service',
         seriePagamentosVlrFuturoApp: '/resources/js/apps/serie-pagamentos-valor-futuro-app',
         bootstrap: '/resources/bower_components/bootstrap-3.3.7-dist/js/bootstrap.min',
         economiaCommons : '/resources/js/utils/economiaCommons'
@@ -28,7 +28,7 @@ require.config({
         userService: {
             deps: ['angular', 'lodash', 'csrfInterceptor']
         },
-        seriePagamentosVlrFuturoService: {
+        seriePgVlrFuturoService: {
             deps: ['angular', 'lodash', 'csrfInterceptor']
         },
         maskMoney : {
@@ -42,7 +42,7 @@ require.config({
         	deps : ['jQuery']
         },
         seriePagamentosVlrFuturoApp: {
-            deps: [ 'lodash', 'angular', 'angularMessages', 'userService', 'seriePagamentosVlrFuturoService', 'maskMoney', 'bootstrap', 'economiaCommons' ]
+            deps: [ 'lodash', 'angular', 'angularMessages', 'userService', 'seriePgVlrFuturoService', 'maskMoney', 'bootstrap', 'economiaCommons' ]
         }
     }
 });

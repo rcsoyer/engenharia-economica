@@ -1,36 +1,41 @@
-angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePagamentosVlrFuturoService', 'spring-security-csrf-token-interceptor'])
-    .controller('SeriePagamentosCtrl', ['$scope' , 'UserService', 'SeriePagamentosVlrFuturoService', '$timeout',
-        function ($scope, UserService, SeriePagamentosService, $timeout) {
-    	
-    		$scope.vm = {
-                errorMessages: [],
-                infoMessages: [],
-                submitted: false,
-                errorMessages: []
-            };
+angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoService', 'spring-security-csrf-token-interceptor'])
+    .controller('SeriePagamentosVlrFuturoCtrl', ['$scope' , 'UserService', 'SeriePgVlrFuturoService', '$timeout',
+        function ($scope, UserService, SeriePgVlrFuturoService, $timeout) {
+
+    		inicializarObjDadosCalcSeriePgVlrFuturo();
+    		inicializarObjResultadoCalcSeriePgVlrFuturo();
+    		inicializarScopeVM();
     		
-      		$('#tempo').find('li').find('a').click(function(evt) {
-     			  evt.preventDefault();
-      		  $('#btnDropTemp').html($(this).text() + ' <span class="caret"></span>');
-  			});
+    		function inicializarScopeVM() {
+    			$scope.vm = {
+	                errorMessages: [],
+	                infoMessages: [],
+	                submitted: false,
+	                errorMessages: [],
+	                labelResultado : 'Valor a ser Resgatado'
+	            };
+            }
     	
-    		inicializarObjDadosSeriePagamentos();
-    		inicializarObjResultadoCalcSeriePg();
-    	
-            function inicializarObjDadosSeriePagamentos() {
-            	$scope.dadosSeriePg = {
+            function inicializarObjDadosCalcSeriePgVlrFuturo() {
+            	$scope.dadosCalcSeriePgVlrFuturo = {
             		vlrResgatado : '',
             		qtdDepositos : '',
-            		vlrDeposito : '',
-        			tempoEmprestDTO : {
-        				vlrPeriodo : '',
-        				tipoTempoPeriodo : 'M'
+            		vrDescobrir : 'VR',
+            		depositoDTO : {
+            			vlrDeposito : '',
+            			tipoTempoDepositos : 'M'
+            		},
+            		taxaDTO : {
+            			vlrTaxa : '',
+            			tipoTempoTaxa : 'M'
         			}
             	};
             }
             
-            function inicializarObjResultadoCalcSeriePg() {
-            	$scope.resultadoCalcSeriePg = {};
+            function inicializarObjResultadoCalcSeriePgVlrFuturo() {
+            	$scope.resultadoCalcSeriePg = {
+            		resultado : ''
+            	};
             }
 
             function showErrorMessage(errorMessage) {
@@ -57,18 +62,14 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePagamentosVl
                 }, 1000);
             }
             
-            function mascararMoedaResultadoCalculos(resultadoCalcJuros) {
-            	var jurosResultado = resultadoCalcJuros.juros;
-            	var montanteResultado = resultadoCalcJuros.montante;
-            	var jurosMascarado = $economia.fn.mascararMoeda(jurosResultado);
-            	var montanteMascarado = $economia.fn.mascararMoeda(montanteResultado);
+            function mascararMoedaResultadoCalculos(resultadoCalcSeriePg) {
+            	var resultado = resultadoCalcSeriePg.resultado;
+            	var resultadoMascarado = $economia.fn.mascararMoeda(resultado);
             	
-            	if(_.isEmpty(jurosMascarado) || _.isEmpty(montanteMascarado)) {
-            		$scope.resultadoCalcJuros.juros = 'R$ ' + jurosResultado;
-            		$scope.resultadoCalcJuros.montante = 'R$ ' + montanteResultado;
+            	if(_.isEmpty(resultadoMascarado)) {
+            		$scope.resultadoCalcSeriePg.resultado = 'R$ ' + resultado;
             	} else {
-            		$scope.resultadoCalcJuros.juros = 'R$ ' + jurosMascarado;
-            		$scope.resultadoCalcJuros.montante = 'R$ ' + montanteMascarado;
+            		$scope.resultadoCalcSeriePg.resultado = 'R$ ' + resultadoMascarado;
             	}
             }
             
@@ -76,26 +77,29 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePagamentosVl
             	$event.preventDefault();
             	$scope.vm.submitted = true;
 
-            	if ($scope.formSeriePagamentos.$invalid) {
+            	if ($scope.formSeriePagamentosVlrFuturo.$invalid) {
                     return;
                 }
                 
-                var scopeDadosCalcJuros = $scope.dadosCalcJuros;
-                
-	            var dadosCalcJuros = {
-	        		tipoJuros : scopeDadosCalcJuros.tipoJuros,
-	    			capitalInicial : scopeDadosCalcJuros.capitalInicial.replace(/\.+/g, '').replace(/\,/, '.'),
-	    			taxaJurosDTO : {
-	    				vlrTaxa : scopeDadosCalcJuros.taxaJurosDTO.vlrTaxa.replace(/\.+/g, '').replace(/\,/, '.'),
-	    				tipoTempoTaxa : scopeDadosCalcJuros.taxaJurosDTO.tipoTempoTaxa
-	    			},
-	    			tempoEmprestDTO : {
-	    				vlrPeriodo : scopeDadosCalcJuros.tempoEmprestDTO.vlrPeriodo,
-	    				tipoTempoPeriodo : scopeDadosCalcJuros.tempoEmprestDTO.tipoTempoPeriodo
-	    			}
+            	var scopeDadosCalcSeriePgVlrFuturo = $scope.dadosCalcSeriePgVlrFuturo;
+                var taxaDTO = scopeDadosCalcSeriePgVlrFuturo.taxaDTO;
+                var depositoDTO = scopeDadosCalcSeriePgVlrFuturo.depositoDTO;
+            	
+	            var dadosCalcSeriePgVlrFuturo = {
+            		vlrResgatado : scopeDadosCalcSeriePgVlrFuturo.vlrResgatado.replace(/\.+/g, '').replace(/\,/, '.'),
+            		qtdDepositos : scopeDadosCalcSeriePgVlrFuturo.qtdDepositos,
+            		vrDescobrir : scopeDadosCalcSeriePgVlrFuturo.vrDescobrir,
+            		depositoDTO : {
+            			vlrDeposito : depositoDTO.vlrDeposito.replace(/\.+/g, '').replace(/\,/, '.'),
+            			tipoTempoDepositos : depositoDTO.tipoTempoDepositos
+            		},
+            		taxaDTO : {
+            			vlrTaxa : taxaDTO.vlrTaxa.replace(/\.+/g, '').replace(/\,/, '.'),
+            			tipoTempoTaxa : taxaDTO.tipoTempoTaxa
+        			}
 	            };
 	
-	            SeriePagamentosVlrFuturoService.calcularSeriePagamentosVlrFuturo(dadosCalcJuros)
+	            SeriePgVlrFuturoService.calcularSeriePgVlrFuturo(dadosCalcSeriePgVlrFuturo)
 	               .then(function (dataResultadoCalc) {
 	            	    mascararMoedaResultadoCalculos(dataResultadoCalc);
 	                },
@@ -109,11 +113,38 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePagamentosVl
                 UserService.logout();
             };
             
+            $scope.sairDaTela = function () {
+            	$economia.fn.voltarParaTelaInicial();
+            };
+            
             $scope.limparDadosInformados = function () {
-            	inicializarObjDadosSeriePagamentos();
-            	inicializarObjResultadoCalcSeriePg();
+            	inicializarObjDadosCalcSeriePgVlrFuturo();
+            	inicializarObjResultadoCalcSeriePgVlrFuturo();
+            	inicializarScopeVM();
             	$scope.vm.submitted = false;
+            };
+            
+            $scope.definirLabelResultado = function () {
+            	switch($scope.dadosCalcSeriePgVlrFuturo.vrDescobrir) {
+            		case 'VR' : {
+            			$scope.vm.labelResultado = 'Valor a ser Resgatado';
+            			$scope.dadosCalcSeriePgVlrFuturo.vlrResgatado = '';
+            			break;
+            		}
+            		case 'QD' : {
+            			$scope.vm.labelResultado = 'Quantidade de Depósitos';
+            			$scope.dadosCalcSeriePgVlrFuturo.qtdDepositos = '';
+            			break;
+            		}
+            		case 'VD' : {
+            			$scope.vm.labelResultado = 'Valor do Depósito';
+            			$scope.dadosCalcSeriePgVlrFuturo.depositoDTO.vlrDeposito = '';
+            			break;
+            		}
+            	}
             };
         }])
         .directive('maskMoney', $economia.fn.maskMoney)
-        .directive('maskInteiro', $economia.fn.maskInteiro);
+        .directive('maskInteiro', $economia.fn.maskInteiro)
+        .directive('trocarTextTempoTaxa', $economia.fn.trocarTextTipoTempoTaxa)
+		.directive('trocarTextTempoDeposit', $economia.fn.trocarTextTipoTempo);
