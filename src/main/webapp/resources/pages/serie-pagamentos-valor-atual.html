@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>S&eacute;rie de Pagamentos: Valor Atual</title>
+        <link rel="stylesheet" href="/resources/bower_components/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/resources/public/css/engenharia-economica.css">
+    </head>
+    
+    <body id="seriePagamentosVlrAtualApp" ng-controller="SeriePagamentosVlrAtualCtrl">
+    
+       <main class="container">
+       
+          <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Engenharia Econ&ocirc;mica</a>
+              </div>
+              <div id="navbar" class="navbar-collapse collapse">
+                  <form class="navbar-form navbar-right">
+                    <div class="header-element username">
+                        <div class="username-placeholder" ng-hide="vm.userName"></div>
+                        <span ng-cloak>{{vm.userName}}</span>
+                    </div>
+                    <div class="header-element">
+                        <a class="logout" href="#" ng-click="logout()">Logout</a>
+                    </div>
+                  </form>
+                </div>
+            </div>
+          </nav>
+          
+          <br />
+          <br />
+          <br />
+          <br />
+          
+          <form class="form-horizontal" name="formSeriePagamentosVlrAtual" novalidate>
+          
+            <fieldset class="row">
+                <legend><h1 class="text-center success">S&eacute;rie de Pagamentos: Valor Atual</h1></legend>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Qual valor deseja descobrir? </label>
+                    <div class="row col-sm-3">
+                        <select name="vrDescobrir" ng-model="dadosCalcSeriePgVlrAtual.vrDescobrir" class="form-control" ng-change="definirLabelResultado()" required>
+                          <option value="VA">Valor Atual</option>
+                          <option value="QP">Quantidade de Presta&ccedil;&otilde;es</option>
+                          <option value="VP">Valor da Presta&ccedil;&atilde;o</option>
+                        </select>
+                    </div>
+                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vrDescobrir.$error" ng-cloak>
+                       <span ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vrDescobrir.$error.required">Campo obrigat&oacute;rio</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Valor Atual </label>
+                    <div class="input-group col-sm-2">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" name="vlrAtual" class="form-control" mask-money ng-disabled="dadosCalcSeriePgVlrAtual.vrDescobrir == 'VA'"
+                           ng-model="dadosCalcSeriePgVlrAtual.vlrAtual" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor"
+                           ng-required="dadosCalcSeriePgVlrAtual.vrDescobrir != 'VA'">
+                    </div>
+                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vlrAtual.$error" ng-cloak>
+                       <span ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vlrAtual.$error.required">Campo obrigat&oacute;rio</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Quantidade de Presta&ccedil;&otilde;es </label>
+                    <div class="row col-sm-2">
+                       <input type="text" class="form-control" name="qtdPrestacoes" ng-model="dadosCalcSeriePgVlrAtual.qtdPrestacoes" maxlength="6" size="6" 
+                        mask-inteiro ng-model-options="{updateOn: 'keyup'}" placeholder="Informe o valor" ng-disabled="dadosCalcSeriePgVlrAtual.vrDescobrir == 'QP'"
+                        ng-required="dadosCalcSeriePgVlrAtual.vrDescobrir != 'QP'">
+                    </div>
+                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.qtdPrestacoes.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.qtdPrestacoes.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Valor da Presta&ccedil;&atilde;o </label>
+                    <div class="input-group col-sm-3">
+                      <span class="input-group-addon">R$</span>
+                      <input type="text" name="vlrPrestacao" class="form-control" mask-money ng-model="dadosCalcSeriePgVlrAtual.prestacaoDTO.vlrPrestacao" maxlength="16" 
+                            size="16" ng-model-options="{updateOn: 'keyup'}" placeholder="Informe o valor" 
+                            ng-disabled="dadosCalcSeriePgVlrAtual.vrDescobrir == 'VP'" ng-required="dadosCalcSeriePgVlrAtual.vrDescobrir != 'VP'">
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTemp" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                            ng-disabled="dadosCalcSeriePgVlrAtual.vrDescobrir == 'VP'">
+                            M&ecirc;s <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                          <li><a href="#" ng-click="dadosCalcSeriePgVlrAtual.prestacaoDTO.tipoTempoPrestacoes='M'" trocar-text-tempo-prestacao>M&ecirc;s</a></li>
+                          <li><a href="#" ng-click="dadosCalcSeriePgVlrAtual.prestacaoDTO.tipoTempoPrestacoes='A'" trocar-text-tempo-prestacao>Ano</a></li>
+                          <li><a href="#" ng-click="dadosCalcSeriePgVlrAtual.prestacaoDTO.tipoTempoPrestacoes='D'" trocar-text-tempo-prestacao>Dias</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vlrPrestacao.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vlrPrestacao.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><span class="obrigatorio"> * </span> Taxa </label>
+                    <div class="input-group col-sm-2">
+                      <input type="text" class="form-control" name="vlrTaxa" ng-model="dadosCalcSeriePgVlrAtual.taxaDTO.vlrTaxa" mask-money 
+                            ng-model-options="{updateOn: 'keyup'}" maxlength="9" size="9" placeholder="Taxa" required>
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" id="btnDropTempTaxa" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            M&ecirc;s <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" id="tempo">
+                          <li><a href="#" ng-click="dadosCalcSeriePgVlrAtual.taxaDTO.tipoTempoTaxa='M'" trocar-text-tempo-taxa>M&ecirc;s</a></li>
+                          <li><a href="#" ng-click="dadosCalcSeriePgVlrAtual.taxaDTO.tipoTempoTaxa='A'" trocar-text-tempo-taxa>Ano</a></li>
+                          <li><a href="#" ng-click="dadosCalcSeriePgVlrAtual.taxaDTO.tipoTempoTaxa='D'" trocar-text-tempo-taxa>Dias</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vlrTaxa.$error" ng-cloak>
+                       <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vlrTaxa.$error.required">Campo obrigat&oacute;rio</div>
+                    </div>
+                </div>
+                 
+               <div class="form-group text-center">
+                   <button type="submit" ng-click="calcularSeriePagamentosVlrAtual($event)" class="btn btn-primary" name="btnCalcula" title="Realizar c&aacute;lculos">
+                       <span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>
+                   </button>
+                   <button type="button" class="btn btn-default" ng-click="limparDadosInformados()" title="Limpar dados informados">
+                      <span class="glyphicon glyphicon-erase" aria-hidden="true"></span>
+                   </button>
+                   <button type="button" class="btn btn-default" title="Voltar para tela inicial" ng-click="sairDaTela()">
+                       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                   </button>
+               </div>
+                 
+            </fieldset>
+
+            <fieldset class="row">
+                <strong><legend>Resultado</legend></strong>
+                <div class="well">
+                   <label ng-cloak>{{vm.labelResultado}}</label>
+                   <span ng-cloak>{{resultadoCalcSeriePg.resultado}}</span>
+                </div>
+            </fieldset>
+                
+        </form>
+       </main>
+       
+       <script type="text/javascript" data-main="/resources/js/run-apps/run-serie-pagamentos-vlr-atual.js" src="/resources/bower_components/requirejs/require.js" async></script>
+    
+    </body>
+</html>

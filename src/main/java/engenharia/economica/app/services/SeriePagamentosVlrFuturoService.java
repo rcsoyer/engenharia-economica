@@ -20,7 +20,7 @@ public class SeriePagamentosVlrFuturoService {
 	BigDecimal umMaisTxElevadoQtdDepositosMenosUm = calcularUmMaisTxElevadoQtdDepositosMenos1(dadosCalcSeriePgVlrFuturoDTO, taxaConvertida);
 	
 	resultadoCalcSeriePg.setResultado(depositoDTO.getVlrDeposito()
-		.multiply(umMaisTxElevadoQtdDepositosMenosUm).divide(taxaConvertida, MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+	  .multiply(umMaisTxElevadoQtdDepositosMenosUm).divide(taxaConvertida, MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
 	umMaisTxElevadoQtdDepositosMenosUm = taxaConvertida = null;
 	depositoDTO = null;

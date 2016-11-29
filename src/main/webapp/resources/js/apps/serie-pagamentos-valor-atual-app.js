@@ -1,9 +1,9 @@
-angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoService', 'spring-security-csrf-token-interceptor'])
-    .controller('SeriePagamentosVlrFuturoCtrl', ['$scope' , 'UserService', 'SeriePgVlrFuturoService', '$timeout',
-        function ($scope, UserService, SeriePgVlrFuturoService, $timeout) {
+angular.module('seriePagamentosVlrAtualApp', ['userService', 'seriePgVlrAtualService', 'spring-security-csrf-token-interceptor'])
+    .controller('SeriePagamentosVlrAtualCtrl', ['$scope' , 'UserService', 'SeriePgVlrAtualService', '$timeout',
+        function ($scope, UserService, SeriePgVlrAtualService, $timeout) {
 
-    		inicializarObjDadosCalcSeriePgVlrFuturo();
-    		inicializarObjResultadoCalcSeriePgVlrFuturo();
+    		inicializarObjDadosCalcSeriePgVlrAtual();
+    		inicializarObjResultadoCalcSeriePgVlrAtual();
     		inicializarScopeVM();
     		
     		function inicializarScopeVM() {
@@ -12,18 +12,18 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoS
 	                infoMessages: [],
 	                submitted: false,
 	                errorMessages: [],
-	                labelResultado : 'Valor a ser Resgatado'
+	                labelResultado : 'Valor Atual'
 	            };
             }
     	
-            function inicializarObjDadosCalcSeriePgVlrFuturo() {
-            	$scope.dadosCalcSeriePgVlrFuturo = {
-            		vlrResgatado : '',
-            		qtdDepositos : '',
-            		vrDescobrir : 'VR',
-            		depositoDTO : {
-            			vlrDeposito : '',
-            			tipoTempoDepositos : 'M'
+            function inicializarObjDadosCalcSeriePgVlrAtual() {
+            	$scope.dadosCalcSeriePgVlrAtual = {
+            		vlrAtual : '',
+            		qtdPrestacoes : '',
+            		vrDescobrir : 'VA',
+            		prestacaoDTO : {
+            			vlrPrestacao : '',
+            			tipoTempoPrestacoes : 'M'
             		},
             		taxaDTO : {
             			vlrTaxa : '',
@@ -32,7 +32,7 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoS
             	};
             }
             
-            function inicializarObjResultadoCalcSeriePgVlrFuturo() {
+            function inicializarObjResultadoCalcSeriePgVlrAtual() {
             	$scope.resultadoCalcSeriePg = {
             		resultado : ''
             	};
@@ -73,25 +73,25 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoS
             	}
             }
             
-            $scope.calcularSeriePagamentosVlrFuturo = function ($event) {
+            $scope.calcularSeriePagamentosVlrAtual = function ($event) {
             	$event.preventDefault();
             	$scope.vm.submitted = true;
 
-            	if ($scope.formSeriePagamentosVlrFuturo.$invalid) {
+            	if ($scope.formSeriePagamentosVlrAtual.$invalid) {
                     return;
                 }
                 
-            	var scopeDadosCalcSeriePgVlrFuturo = $scope.dadosCalcSeriePgVlrFuturo;
-                var taxaDTO = scopeDadosCalcSeriePgVlrFuturo.taxaDTO;
-                var depositoDTO = scopeDadosCalcSeriePgVlrFuturo.depositoDTO;
+            	var scopeDadosCalcSeriePgVlrAtual = $scope.dadosCalcSeriePgVlrAtual;
+                var taxaDTO = scopeDadosCalcSeriePgVlrAtual.taxaDTO;
+                var prestacaoDTO = scopeDadosCalcSeriePgVlrAtual.prestacaoDTO;
             	
-	            var dadosCalcSeriePgVlrFuturo = {
-            		vlrResgatado : scopeDadosCalcSeriePgVlrFuturo.vlrResgatado.replace(/\.+/g, '').replace(/\,/, '.'),
-            		qtdDepositos : scopeDadosCalcSeriePgVlrFuturo.qtdDepositos,
-            		vrDescobrir : scopeDadosCalcSeriePgVlrFuturo.vrDescobrir,
-            		depositoDTO : {
-            			vlrDeposito : depositoDTO.vlrDeposito.replace(/\.+/g, '').replace(/\,/, '.'),
-            			tipoTempoDepositos : depositoDTO.tipoTempoDepositos
+	            var dadosCalcSeriePgVlrAtual = {
+            		vlrAtual : scopeDadosCalcSeriePgVlrAtual.vlrAtual.replace(/\.+/g, '').replace(/\,/, '.'),
+            		qtdPrestacoes : scopeDadosCalcSeriePgVlrAtual.qtdPrestacoes,
+            		vrDescobrir : scopeDadosCalcSeriePgVlrAtual.vrDescobrir,
+            		prestacaoDTO : {
+            			vlrPrestacao : prestacaoDTO.vlrPrestacao.replace(/\.+/g, '').replace(/\,/, '.'),
+            			tipoTempoPrestacoes : prestacaoDTO.tipoTempoPrestacoes
             		},
             		taxaDTO : {
             			vlrTaxa : taxaDTO.vlrTaxa.replace(/\.+/g, '').replace(/\,/, '.'),
@@ -99,7 +99,7 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoS
         			}
 	            };
 	
-	            SeriePgVlrFuturoService.calcularSeriePgVlrFuturo(dadosCalcSeriePgVlrFuturo)
+	            SeriePgVlrAtualService.calcularSeriePagamentosVlrAtual(dadosCalcSeriePgVlrAtual)
 	               .then(function (dataResultadoCalc) {
 	            	    mascararMoedaResultadoCalculos(dataResultadoCalc);
 	                },
@@ -118,27 +118,29 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoS
             };
             
             $scope.limparDadosInformados = function () {
-            	inicializarObjDadosCalcSeriePgVlrFuturo();
-            	inicializarObjResultadoCalcSeriePgVlrFuturo();
+            	inicializarObjDadosCalcSeriePgVlrAtual();
+            	inicializarObjResultadoCalcSeriePgVlrAtual();
             	inicializarScopeVM();
             	$('#btnDropTempTaxa, #btnDropTemp').html('M&ecirc;s' + ' <span class="caret"></span>');
             };
             
             $scope.definirLabelResultado = function () {
-            	switch($scope.dadosCalcSeriePgVlrFuturo.vrDescobrir) {
-            		case 'VR' : {
-            			$scope.vm.labelResultado = 'Valor a ser Resgatado';
-            			$scope.dadosCalcSeriePgVlrFuturo.vlrResgatado = '';
+            	var dadosCalcSeriePgVlrAtual = $scope.dadosCalcSeriePgVlrAtual;
+            	
+            	switch(dadosCalcSeriePgVlrAtual.vrDescobrir) {
+            		case 'VA' : {
+            			$scope.vm.labelResultado = 'Valor Atual';
+            			dadosCalcSeriePgVlrAtual.vlrAtual = '';
             			break;
             		}
-            		case 'QD' : {
-            			$scope.vm.labelResultado = 'Quantidade de Depósitos';
-            			$scope.dadosCalcSeriePgVlrFuturo.qtdDepositos = '';
+            		case 'QP' : {
+            			$scope.vm.labelResultado = 'Quantidade de Prestações';
+            			dadosCalcSeriePgVlrAtual.qtdPrestacoes = '';
             			break;
             		}
-            		case 'VD' : {
-            			$scope.vm.labelResultado = 'Valor do Depósito';
-            			$scope.dadosCalcSeriePgVlrFuturo.depositoDTO.vlrDeposito = '';
+            		case 'VP' : {
+            			$scope.vm.labelResultado = 'Valor da Prestação';
+            			dadosCalcSeriePgVlrAtual.prestacaoDTO.vlrPrestacao = '';
             			break;
             		}
             	}
@@ -146,5 +148,5 @@ angular.module('seriePagamentosVlrFuturoApp', ['userService', 'seriePgVlrFuturoS
         }])
         .directive('maskMoney', $economia.fn.maskMoney)
         .directive('maskInteiro', $economia.fn.maskInteiro)
-        .directive('trocarTextTempoTaxa', $economia.fn.trocarTextTipoTempoTaxa)
-		.directive('trocarTextTempoDeposit', $economia.fn.trocarTextTipoTempo);
+        .directive('trocarTextTempoPrestacao', $economia.fn.trocarTextTipoTempo)
+		.directive('trocarTextTempoTaxa', $economia.fn.trocarTextTipoTempoTaxa);

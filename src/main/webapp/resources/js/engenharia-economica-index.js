@@ -50,7 +50,11 @@ angular.module('engenhariaEconomicaApp', ['userService', 'spring-security-csrf-t
             $scope.loadDescontosApp = function () {
             	window.location.replace('/resources/pages/descontos.html');
             }
-
+            
+            $scope.loadSeriePagamentosVlrAtualApp = function () {
+            	window.location.replace('/resources/pages/serie-pagamentos-valor-atual.html');
+            }
+            
             $scope.logout = function () {
                 UserService.logout();
             }
