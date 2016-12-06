@@ -3,6 +3,8 @@ package engenharia.economica.app.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import engenharia.economica.app.math.MathCommons;
+
 public class TaxaDTO implements Serializable {
     
     private static final long serialVersionUID = 6694713191934182151L;
@@ -12,7 +14,7 @@ public class TaxaDTO implements Serializable {
     private String		    tipoTempoTaxa;
     
     public BigDecimal obterTaxaPor100() {
-	return vlrTaxa.divide(CEM);
+	return vlrTaxa.divide(CEM, MathCommons.MATH_CONTEXT_100000);
     }
     
     public BigDecimal getVlrTaxa() {
