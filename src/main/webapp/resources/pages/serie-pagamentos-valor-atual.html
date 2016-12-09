@@ -57,7 +57,7 @@
                           <option value="VP">Valor da Presta&ccedil;&atilde;o</option>
                         </select>
                     </div>
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vrDescobrir.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrAtual.vrDescobrir.$error" ng-cloak>
                        <span ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vrDescobrir.$error.required">Campo obrigat&oacute;rio</span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                            ng-model="dadosCalcSeriePgVlrAtual.vlrAtual" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor"
                            ng-required="dadosCalcSeriePgVlrAtual.vrDescobrir != 'VA'">
                     </div>
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vlrAtual.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrAtual.vlrAtual.$error" ng-cloak>
                        <span ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vlrAtual.$error.required">Campo obrigat&oacute;rio</span>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                         mask-inteiro ng-model-options="{updateOn: 'keyup'}" placeholder="Informe o valor" ng-disabled="dadosCalcSeriePgVlrAtual.vrDescobrir == 'QP'"
                         ng-required="dadosCalcSeriePgVlrAtual.vrDescobrir != 'QP'">
                     </div>
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.qtdPrestacoes.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrAtual.qtdPrestacoes.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.qtdPrestacoes.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
@@ -107,8 +107,11 @@
                       </div>
                     </div>
                     
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vlrPrestacao.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrAtual.vlrPrestacao.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vlrPrestacao.$error.required">Campo obrigat&oacute;rio</div>
+                       <div ng-message="vlrMinimo" ng-show="formSeriePagamentosVlrAtual.vlrPrestacao.$error.vlrMinimo">
+                            O Valor da Presta&ccedil;&atilde;o deve ser maior e diferente, do produto entre Valor Atual e Taxa
+                       </div>
                     </div>
                 </div>
                 
@@ -129,7 +132,7 @@
                       </div>
                     </div>
                     
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrAtual.vlrTaxa.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrAtual.vlrTaxa.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrAtual.vlrTaxa.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>

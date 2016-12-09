@@ -57,7 +57,7 @@
 					      <option value="VD">Valor do Dep&oacute;sito</option>
 					    </select>
                     </div>
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrFuturo.vrDescobrir.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrFuturo.vrDescobrir.$error" ng-cloak>
                        <span ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrFuturo.vrDescobrir.$error.required">Campo obrigat&oacute;rio</span>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                            ng-model="dadosCalcSeriePgVlrFuturo.vlrResgatado" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor"
                            ng-required="dadosCalcSeriePgVlrFuturo.vrDescobrir != 'VR'">
                     </div>
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrFuturo.vlrResgatado.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrFuturo.vlrResgatado.$error" ng-cloak>
                        <span ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrFuturo.vlrResgatado.$error.required">Campo obrigat&oacute;rio</span>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                         mask-inteiro ng-model-options="{updateOn: 'keyup'}" placeholder="Informe o valor" ng-disabled="dadosCalcSeriePgVlrFuturo.vrDescobrir == 'QD'"
                         ng-required="dadosCalcSeriePgVlrFuturo.vrDescobrir != 'QD'">
                     </div>
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrFuturo.qtdDepositos.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrFuturo.qtdDepositos.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrFuturo.qtdDepositos.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                       </div>
                     </div>
                     
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrFuturo.vlrDeposito.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrFuturo.vlrDeposito.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrFuturo.vlrDeposito.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                       </div>
                     </div>
                     
-                    <div class="error-messages" ng-messages="formSeriePagamentosVlrFuturo.vlrTaxa.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formSeriePagamentosVlrFuturo.vlrTaxa.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formSeriePagamentosVlrFuturo.vlrTaxa.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>

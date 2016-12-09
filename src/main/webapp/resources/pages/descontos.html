@@ -58,7 +58,7 @@
                      <input type="radio" name="tipoDescontos" id="radioComp" value="C" ng-model="dadosCalcDescontos.tipoDescontos" required>
                       Composto
                    </label>
-                   <div class="error-messages" ng-messages="formDescontos.tipoDescontos.$error" ng-cloak>
+                   <div class="error-messages col-md-2" ng-messages="formDescontos.tipoDescontos.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formDescontos.tipoDescontos.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                       <input type="text" name="vlrTitulo" class="form-control" mask-money 
                            ng-model="dadosCalcDescontos.vlrTitulo" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor" required>
                     </div>
-                    <div class="error-messages" ng-messages="formDescontos.vlrTitulo.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formDescontos.vlrTitulo.$error" ng-cloak>
                        <span ng-message="required" ng-show="vm.submitted && formDescontos.vlrTitulo.$error.required">Campo obrigat&oacute;rio</span>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                           </ul>
                         </div>
                     </div>
-                    <div class="error-messages" ng-messages="formDescontos.vlrTaxa.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formDescontos.vlrTaxa.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formDescontos.vlrTaxa.$error.required">Campo obrigat&oacute;rio</div>
                        <div ng-message="vlrMaxTaxaInv" ng-show="formDescontos.vlrTaxa.$error.vlrMaxTaxaInv">Taxa m&aacute;xima permitida: 100,00%</div>
                     </div>
@@ -115,7 +115,7 @@
                       </div>
                     </div>
                     
-                    <div class="error-messages" ng-messages="formDescontos.vlrPeriodo.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formDescontos.vlrPeriodo.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formDescontos.vlrPeriodo.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>

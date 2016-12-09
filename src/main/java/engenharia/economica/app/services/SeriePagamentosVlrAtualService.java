@@ -21,7 +21,7 @@ public class SeriePagamentosVlrAtualService {
 	
 	resultadoCalcSeriePg.setResultado(prestacaoDTO.getVlrPrestacao()
 	  .multiply(umMaisTxElevadoQtdPrestacoes.subtract(BigDecimal.ONE))
-	  .divide(umMaisTxElevadoQtdPrestacoes.multiply(taxaConvertida), MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+	  .divide(umMaisTxElevadoQtdPrestacoes.multiply(taxaConvertida), MathCommons.MATH_CONTEXT_100).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
 	prestacaoDTO = null;
 	taxaConvertida = umMaisTxElevadoQtdPrestacoes = null;
@@ -36,7 +36,7 @@ public class SeriePagamentosVlrAtualService {
 	BigDecimal umMaisTxElevadoQtdPrestacoes = calcularUmMaisTxElevadoQtdPrestacoes(dadosCalcSeriePgVlrAtualDTO, taxaConvertida);
 	
 	resultadoCalcSeriePg.setResultado(dadosCalcSeriePgVlrAtualDTO.getVlrAtual().multiply(umMaisTxElevadoQtdPrestacoes.multiply(taxaConvertida))
-		.divide(umMaisTxElevadoQtdPrestacoes.subtract(BigDecimal.ONE), MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+		.divide(umMaisTxElevadoQtdPrestacoes.subtract(BigDecimal.ONE), MathCommons.MATH_CONTEXT_100).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
 	umMaisTxElevadoQtdPrestacoes = taxaConvertida = null;
 	
@@ -68,7 +68,7 @@ public class SeriePagamentosVlrAtualService {
 	BigDecimal vlrPrestacao = prestacaoDTO.getVlrPrestacao();
 	BigDecimal taxaConvertida = MathCommons.converterTemposMesmaProporcaoBaseTaxa(dadosCalcSeriePgVlrAtualDTO.getTaxaDTO(), prestacaoDTO.getTipoTempoPrestacoes());
 	BigDecimal vlrPrestacaoDividePrestacaoSubAtualMutlTaxa =
-		vlrPrestacao.divide(vlrPrestacao.subtract(dadosCalcSeriePgVlrAtualDTO.getVlrAtual().multiply(taxaConvertida)), MathCommons.MATH_CONTEXT_100000);
+		vlrPrestacao.divide(vlrPrestacao.subtract(dadosCalcSeriePgVlrAtualDTO.getVlrAtual().multiply(taxaConvertida)), MathCommons.MATH_CONTEXT_100);
 	double vlrPrestacaoDividePrestacaoSubAtualMutlTaxaLog10Double = Math.log10(vlrPrestacaoDividePrestacaoSubAtualMutlTaxa.doubleValue());
 	BigDecimal umMaisTaxa = BigDecimal.ONE.add(taxaConvertida);
 	double umMaisTaxaLog10Double = Math.log10(umMaisTaxa.doubleValue());
@@ -86,7 +86,7 @@ public class SeriePagamentosVlrAtualService {
 	}
 	
 	resultadoCalcSeriePg.setResultado(
-	  vlrPrestacaoDividePrestacaoSubAtualMutlTaxaLog10.divide(umMaisTaxaLog10, MathCommons.MATH_CONTEXT_100000).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
+	  vlrPrestacaoDividePrestacaoSubAtualMutlTaxaLog10.divide(umMaisTaxaLog10, MathCommons.MATH_CONTEXT_100).setScale(2, BigDecimal.ROUND_HALF_EVEN).toPlainString());
 	
 	umMaisTaxaLog10 = vlrPrestacaoDividePrestacaoSubAtualMutlTaxaLog10 = vlrPrestacao = taxaConvertida = umMaisTaxa = vlrPrestacaoDividePrestacaoSubAtualMutlTaxa = null;
 	prestacaoDTO = null;

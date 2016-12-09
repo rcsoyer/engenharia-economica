@@ -14,7 +14,7 @@ public class TaxaDTO implements Serializable {
     private String		    tipoTempoTaxa;
     
     public BigDecimal obterTaxaPor100() {
-	return vlrTaxa.divide(CEM, MathCommons.MATH_CONTEXT_100000);
+	return vlrTaxa.divide(CEM, MathCommons.MATH_CONTEXT_100);
     }
     
     public BigDecimal getVlrTaxa() {

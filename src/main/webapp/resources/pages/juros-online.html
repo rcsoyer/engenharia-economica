@@ -58,7 +58,7 @@
                      <input type="radio" name="tipoJuros" id="radioComp" value="C" ng-model="dadosCalcJuros.tipoJuros" required>
                       Compostos
                    </label>
-                   <div class="error-messages" ng-messages="formJuros.tipoJuros.$error" ng-cloak>
+                   <div class="error-messages col-md-2" ng-messages="formJuros.tipoJuros.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formJuros.tipoJuros.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
 	                  <input type="text" name="capitalInicial" class="form-control" mask-money 
 	                       ng-model="dadosCalcJuros.capitalInicial" ng-model-options="{updateOn: 'keyup'}" maxlength="16" size="16" placeholder="Informe o valor" required>
                     </div>
-	                <div class="error-messages" ng-messages="formJuros.capitalInicial.$error" ng-cloak>
+	                <div class="error-messages col-md-2" ng-messages="formJuros.capitalInicial.$error" ng-cloak>
 	                   <span ng-message="required" ng-show="vm.submitted && formJuros.capitalInicial.$error.required">Campo obrigat&oacute;rio</span>
 	                </div>
                 </div>
@@ -92,7 +92,7 @@
 	                      </ul>
 	                    </div>
                     </div>
-                    <div class="error-messages" ng-messages="formJuros.vlrTaxa.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formJuros.vlrTaxa.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formJuros.vlrTaxa.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
                 </div>
@@ -114,7 +114,7 @@
 				      </div>
 				    </div>
 				    
-                    <div class="error-messages" ng-messages="formJuros.vlrPeriodo.$error" ng-cloak>
+                    <div class="error-messages col-md-2" ng-messages="formJuros.vlrPeriodo.$error" ng-cloak>
                        <div ng-message="required" ng-show="vm.submitted && formJuros.vlrPeriodo.$error.required">Campo obrigat&oacute;rio</div>
                     </div>
 			    </div>

@@ -201,6 +201,18 @@
                             <goal>sources</goal>
                         </goals>
                     </execution>
+                    <execution>
+			            <id>copy-dependencies</id>
+			            <phase>process-resources</phase>
+			            <goals>
+			                <goal>copy-dependencies</goal>
+			            </goals>
+			            <configuration>
+			                <outputDirectory>${basedir}/src/main/webapp/WEB-INF/lib</outputDirectory>
+                            <includeScope>compile</includeScope>
+                            <excludeScope>test</excludeScope>
+			            </configuration>
+		            </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -208,9 +220,10 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
                     <path>/</path>
-                    <contextReloadable>true</contextReloadable>
                     <keystoreFile>${basedir}/other/keystore.jks</keystoreFile>
                     <keystorePass>secret</keystorePass>
+                    <contextReloadable>true</contextReloadable>
+                    <outputDirectory>${basedir}/src/main/webapp/WEB-INF/lib</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>

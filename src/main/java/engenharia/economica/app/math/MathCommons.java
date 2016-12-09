@@ -20,7 +20,7 @@ public final class MathCommons {
     public static final BigDecimal MESES_NO_ANO_BIG_DEC = new BigDecimal(12);
     public static final BigDecimal DIAS_NO_ANO_BIG_DEC = new BigDecimal(365);
     public static final MathContext MATH_CONTEXT_2 = new MathContext(2, RoundingMode.HALF_EVEN);
-    public static final MathContext MATH_CONTEXT_100000 = new MathContext(100000, RoundingMode.HALF_EVEN);
+    public static final MathContext MATH_CONTEXT_100 = new MathContext(100, RoundingMode.HALF_EVEN);
     
     public static BigDecimal converterTemposMesmaProporcao(String tipoTempoTaxa, PeriodoDTO periodoDTO) {
 	String tipoTempoPeriodo = periodoDTO.getTipoTempoPeriodo();
@@ -31,15 +31,15 @@ public final class MathCommons {
 	    
 	    if(tipoTempoTaxa.equals(TiposTempoJuros.M.name())) {
 		if(tipoTempoPeriodo.equals(TiposTempoJuros.D.name())) {
-		    vlrPeriodoConvertido = vlrPeriodo.divide(DIAS_NO_MES_BIG_DEC, MATH_CONTEXT_100000);
+		    vlrPeriodoConvertido = vlrPeriodo.divide(DIAS_NO_MES_BIG_DEC, MATH_CONTEXT_100);
 		} else {
 		    vlrPeriodoConvertido = vlrPeriodo.multiply(MathCommons.MESES_NO_ANO_BIG_DEC);
 		}
 	    } else if(tipoTempoTaxa.equals(TiposTempoJuros.A.name())) {
 		if(tipoTempoPeriodo.equals(TiposTempoJuros.D.name())) {
-		    vlrPeriodoConvertido = vlrPeriodo.divide(MathCommons.DIAS_NO_ANO_BIG_DEC, MATH_CONTEXT_100000);
+		    vlrPeriodoConvertido = vlrPeriodo.divide(MathCommons.DIAS_NO_ANO_BIG_DEC, MATH_CONTEXT_100);
 		} else {
-		    vlrPeriodoConvertido = vlrPeriodo.divide(MathCommons.MESES_NO_ANO_BIG_DEC, MATH_CONTEXT_100000);
+		    vlrPeriodoConvertido = vlrPeriodo.divide(MathCommons.MESES_NO_ANO_BIG_DEC, MATH_CONTEXT_100);
 		}
 	    } else {
 		if(tipoTempoPeriodo.equals(TiposTempoJuros.M.name())) {

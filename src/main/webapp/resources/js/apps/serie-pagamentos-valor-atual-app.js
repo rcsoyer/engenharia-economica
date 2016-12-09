@@ -73,19 +73,12 @@ angular.module('seriePagamentosVlrAtualApp', ['userService', 'seriePgVlrAtualSer
             	}
             }
             
-            $scope.calcularSeriePagamentosVlrAtual = function ($event) {
-            	$event.preventDefault();
-            	$scope.vm.submitted = true;
-
-            	if ($scope.formSeriePagamentosVlrAtual.$invalid) {
-                    return;
-                }
-                
+            function obterObjParaEnvioRest() {
             	var scopeDadosCalcSeriePgVlrAtual = $scope.dadosCalcSeriePgVlrAtual;
                 var taxaDTO = scopeDadosCalcSeriePgVlrAtual.taxaDTO;
                 var prestacaoDTO = scopeDadosCalcSeriePgVlrAtual.prestacaoDTO;
             	
-	            var dadosCalcSeriePgVlrAtual = {
+            	return {
             		vlrAtual : scopeDadosCalcSeriePgVlrAtual.vlrAtual.replace(/\.+/g, '').replace(/\,/, '.'),
             		qtdPrestacoes : scopeDadosCalcSeriePgVlrAtual.qtdPrestacoes,
             		vrDescobrir : scopeDadosCalcSeriePgVlrAtual.vrDescobrir,
@@ -98,6 +91,32 @@ angular.module('seriePagamentosVlrAtualApp', ['userService', 'seriePgVlrAtualSer
             			tipoTempoTaxa : taxaDTO.tipoTempoTaxa
         			}
 	            };
+            }
+            
+            function verificarTxVlrAtualMenorQValorPrestacao(dadosCalcSeriePgVlrAtual) {
+            	var vlrAtual = dadosCalcSeriePgVlrAtual.vlrAtual;
+            	var vlrTaxa = dadosCalcSeriePgVlrAtual.taxaDTO.vlrTaxa;
+            	var vlrPrestacao = dadosCalcSeriePgVlrAtual.prestacaoDTO.vlrPrestacao;
+            	
+            	if(!_.isEmpty(vlrAtual) && !_.isEmpty(vlrTaxa) && !_.isEmpty(vlrPrestacao)) {
+            		if(_.multiply(vlrAtual, vlrTaxa) < vlrPrestacao) {
+            			$scope.formSeriePagamentosVlrAtual.vlrPrestacao.$setValidity('vlrMinimo', true);
+            		} else {
+            			$scope.formSeriePagamentosVlrAtual.vlrPrestacao.$setValidity('vlrMinimo', false);
+            		}
+            	}
+            }
+            
+            $scope.calcularSeriePagamentosVlrAtual = function ($event) {
+            	$event.preventDefault();
+            	$scope.vm.submitted = true;
+            	
+            	var dadosCalcSeriePgVlrAtual = obterObjParaEnvioRest();
+            	verificarTxVlrAtualMenorQValorPrestacao(dadosCalcSeriePgVlrAtual);
+
+            	if ($scope.formSeriePagamentosVlrAtual.$invalid) {
+                    return;
+                }
 	
 	            SeriePgVlrAtualService.calcularSeriePagamentosVlrAtual(dadosCalcSeriePgVlrAtual)
 	               .then(function (dataResultadoCalc) {
@@ -108,7 +127,7 @@ angular.module('seriePagamentosVlrAtualApp', ['userService', 'seriePgVlrAtualSer
 	                }
 	            );
             };
-
+            
             $scope.logout = function () {
                 UserService.logout();
             };
@@ -121,6 +140,7 @@ angular.module('seriePagamentosVlrAtualApp', ['userService', 'seriePgVlrAtualSer
             	inicializarObjDadosCalcSeriePgVlrAtual();
             	inicializarObjResultadoCalcSeriePgVlrAtual();
             	inicializarScopeVM();
+            	$scope.formSeriePagamentosVlrAtual.vlrPrestacao.$setValidity('vlrMinimo', true);
             	$('#btnDropTempTaxa, #btnDropTemp').html('M&ecirc;s' + ' <span class="caret"></span>');
             };
             

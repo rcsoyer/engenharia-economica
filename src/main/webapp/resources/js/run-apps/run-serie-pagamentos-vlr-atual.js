@@ -3,7 +3,7 @@ require.config({
         angular: '/resources/bower_components/angular/angular.min',
         angularMessages: '/resources/bower_components/angular-messages/angular-messages.min',
         csrfInterceptor: '/resources/bower_components/spring-security-csrf-token-interceptor/dist/spring-security-csrf-token-interceptor.min',
-        lodash: '/resources/bower_components/lodash/dist/lodash.min',
+        lodash: '/resources/bower_components/lodash/4.17.2/lodash.min',
         jQuery: '/resources/bower_components/jquery/jquery-3.1.1.min', 
         maskMoney : '/resources/bower_components/jquery-maskmoney-master/dist/jquery.maskMoney.min',
         userService: '/resources/js/frontend-services/user-service',
